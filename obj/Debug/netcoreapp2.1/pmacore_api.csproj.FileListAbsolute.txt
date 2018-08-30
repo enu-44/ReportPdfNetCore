@@ -1,0 +1,14 @@
+D:\Interedes\PROYECTOS\PMA\pmacore_api\bin\Debug\netcoreapp2.1\pmacore_api.deps.json
+D:\Interedes\PROYECTOS\PMA\pmacore_api\bin\Debug\netcoreapp2.1\pmacore_api.runtimeconfig.json
+D:\Interedes\PROYECTOS\PMA\pmacore_api\bin\Debug\netcoreapp2.1\pmacore_api.runtimeconfig.dev.json
+D:\Interedes\PROYECTOS\PMA\pmacore_api\bin\Debug\netcoreapp2.1\pmacore_api.dll
+D:\Interedes\PROYECTOS\PMA\pmacore_api\bin\Debug\netcoreapp2.1\pmacore_api.pdb
+D:\Interedes\PROYECTOS\PMA\pmacore_api\obj\Debug\netcoreapp2.1\pmacore_api.csprojAssemblyReference.cache
+D:\Interedes\PROYECTOS\PMA\pmacore_api\obj\Debug\netcoreapp2.1\pmacore_api.csproj.CoreCompileInputs.cache
+D:\Interedes\PROYECTOS\PMA\pmacore_api\obj\Debug\netcoreapp2.1\pmacore_api.RazorAssemblyInfo.cache
+D:\Interedes\PROYECTOS\PMA\pmacore_api\obj\Debug\netcoreapp2.1\pmacore_api.RazorAssemblyInfo.cs
+D:\Interedes\PROYECTOS\PMA\pmacore_api\obj\Debug\netcoreapp2.1\pmacore_api.AssemblyInfoInputs.cache
+D:\Interedes\PROYECTOS\PMA\pmacore_api\obj\Debug\netcoreapp2.1\pmacore_api.AssemblyInfo.cs
+D:\Interedes\PROYECTOS\PMA\pmacore_api\obj\Debug\netcoreapp2.1\pmacore_api.RazorTargetAssemblyInfo.cache
+D:\Interedes\PROYECTOS\PMA\pmacore_api\obj\Debug\netcoreapp2.1\pmacore_api.dll
+D:\Interedes\PROYECTOS\PMA\pmacore_api\obj\Debug\netcoreapp2.1\pmacore_api.pdb

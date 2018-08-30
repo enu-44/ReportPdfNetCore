@@ -1,0 +1,87 @@
+.formato{
+    page-break-before: always; 
+  /*  page-break-after: always; */
+}
+
+.traslate_text_vertical{
+    font-size:10px;
+                -webkit-transform: rotate(-90deg);
+                -moz-transform: rotate(-90deg);
+                -ms-transform: rotate(-90deg);
+                -o-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+                margin: 0 -13em; 
+}
+
+.header {
+    text-align: center;
+    color: green;
+    padding-bottom: 35px;
+}
+ 
+table {
+    
+    font-family:tahoma;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+.title_table{
+    background-color:#48d267 ;
+    font-size: 15px;
+    text-align: center;
+}
+
+
+.title_total{
+    background-color:#909497 ;
+    font-size: 15px;
+    text-align: center;
+}
+
+
+.title_firmas{
+    font-size: 15px;
+    text-align: center;
+}
+
+
+
+.content_table{
+    font-size: 15px;
+    text-align: center;
+}
+
+
+
+.content_list_small_table{
+    font-size: 11px;
+    text-align: center;
+}
+ 
+td, th {
+    border: 1px solid gray;
+    padding: 15px;
+    font-size: 22px;
+    text-align: center;
+}
+ 
+table th {
+    background-color: green;
+    color: white;
+}
+
+p{
+    font-family:tahoma;
+    font-size: 14px;
+    text-align: center;
+}
+
+/*
+@media print {
+    .new-page {
+      page-break-after: always;
+    }
+  }
+*/
