@@ -15,7 +15,6 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     
-    <PackageReference Include="PdfRpt.Core" Version="1.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
   </ItemGroup>
 

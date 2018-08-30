@@ -39,6 +39,89 @@ namespace pmacore_api.Controllers
              _converter = converter;
         }
 
+        /* [HttpGet]
+        [Route("GetPdfLegalizacion")] 
+        public async Task<IActionResult>  GetPdfLegalizacion()*/
+        [HttpPost]
+        [Route("PostPdfAutorizacion")] 
+        public async Task<IActionResult>  PostPdfAutorizacion([FromBody] ResponseApiPma requestPma )
+        {
+            var list=requestPma;
+            var globalSettings = new GlobalSettings
+                {
+                    ColorMode = ColorMode.Color,
+                    Orientation = Orientation.Landscape,
+                    PaperSize = PaperKind.A4,
+                    Margins = new MarginSettings { Top = 6 },
+                    DocumentTitle = "Formato Legalizacion"
+                };
+
+
+                var templatePdfAutorizacion= new TemplatePdfAutorizacion();
+                //var template= await templatePdfAutorizacion.GetHTMLString(requestPma,_hostingEnvironment.WebRootPath);
+            
+                var objectSettings = new ObjectSettings
+                {
+                    PagesCount = true,
+                   // Page= "http://interedes.co/",
+                    HtmlContent = await templatePdfAutorizacion.GetHTMLString(requestPma,_hostingEnvironment.WebRootPath),
+                    WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet =  Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") },
+                    HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = false },
+                    FooterSettings = { FontName = "Arial", FontSize = 9, Line = false, Center = "" }
+                };
+            
+                var pdf = new HtmlToPdfDocument()
+                {
+                    GlobalSettings = globalSettings,
+                    Objects = { objectSettings }
+                };
+            
+                var file = _converter.Convert(pdf);
+
+                return File(file, "application/pdf");
+        }
+
+
+
+        [HttpPost]
+        [Route("PostPdfLegalizacion")] 
+        public async Task<IActionResult>  PostPdfLegalizacion([FromBody] ResponseApiPma requestPma )
+        {
+            var list=requestPma;
+            var globalSettings = new GlobalSettings
+                {
+                    ColorMode = ColorMode.Color,
+                    Orientation = Orientation.Landscape,
+                    PaperSize = PaperKind.A4,
+                    Margins = new MarginSettings { Top = 6 },
+                    DocumentTitle = "Formato Legalizacion"
+                };
+
+                 var templatePdfLegalizacion= new TemplatePdfLegalizacion();
+
+                var objectSettings = new ObjectSettings
+                {
+                    PagesCount = true,
+                   // Page= "http://interedes.co/",
+                    HtmlContent = await templatePdfLegalizacion.GetHTMLString(requestPma,_hostingEnvironment.WebRootPath),
+                    WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet =  Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") },
+                    HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = false },
+                    FooterSettings = { FontName = "Arial", FontSize = 9, Line = false, Center = "" }
+                };
+            
+                var pdf = new HtmlToPdfDocument()
+                {
+                    GlobalSettings = globalSettings,
+                    Objects = { objectSettings }
+                };
+            
+                var file = _converter.Convert(pdf);
+
+                return File(file, "application/pdf");
+               // return File(file, "application/pdf", "EmployeeReport.pdf");
+        }
+
+        /* 
         [HttpGet]
         [Route("GetPdfAutorizacion")] 
         public async Task<IActionResult>  GetPdfAutorizacion()
@@ -138,402 +221,22 @@ namespace pmacore_api.Controllers
 
 
 
-               // return File(file, "application/pdf");
-            /*var outputStream = new MemoryStream();
+            // return File(file, "application/pdf");
+            var outputStream = new MemoryStream();
+            
+            
             HtmlCellTemplatePdfReport.CreateHtmlHeaderPdfReportStream(_hostingEnvironment.WebRootPath, outputStream);
             var stream =  new FileStreamResult(outputStream, "application/pdf")
             {
                 FileDownloadName = "report.pdf"
             };
-
            // return stream;
-            
-            //return for view online
-            var bytepdf= ReadToEnd(stream.FileStream);
-            return File(bytepdf, "application/pdf");*/
-        }
-
-
-
-        /* [HttpGet]
-        [Route("GetPdfLegalizacion")] 
-        public async Task<IActionResult>  GetPdfLegalizacion()*/
-
-        [HttpPost]
-        [Route("PostPdfAutorizacion")] 
-        public async Task<IActionResult>  PostPdfAutorizacion([FromBody] ResponseApiPma requestPma )
-        {
-            var list=requestPma;
-            var globalSettings = new GlobalSettings
-                {
-                    ColorMode = ColorMode.Color,
-                    Orientation = Orientation.Landscape,
-                    PaperSize = PaperKind.A4,
-                    Margins = new MarginSettings { Top = 6 },
-                    DocumentTitle = "Formato Legalizacion"
-                };
-
-
-                var templatePdfAutorizacion= new TemplatePdfAutorizacion();
-                //var template= await templatePdfAutorizacion.GetHTMLString(requestPma,_hostingEnvironment.WebRootPath);
-            
-                var objectSettings = new ObjectSettings
-                {
-                    PagesCount = true,
-                   // Page= "http://interedes.co/",
-                    HtmlContent = await templatePdfAutorizacion.GetHTMLString(requestPma,_hostingEnvironment.WebRootPath),
-                    WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet =  Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") },
-                    HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = false },
-                    FooterSettings = { FontName = "Arial", FontSize = 9, Line = false, Center = "" }
-                };
-            
-                var pdf = new HtmlToPdfDocument()
-                {
-                    GlobalSettings = globalSettings,
-                    Objects = { objectSettings }
-                };
-            
-                var file = _converter.Convert(pdf);
-
-                return File(file, "application/pdf");
-        }
-
-
-
-        [HttpPost]
-        [Route("PostPdfLegalizacion")] 
-        public async Task<IActionResult>  PostPdfLegalizacion([FromBody] ResponseApiPma requestPma )
-        {
-            var list=requestPma;
-            var globalSettings = new GlobalSettings
-                {
-                    ColorMode = ColorMode.Color,
-                    Orientation = Orientation.Landscape,
-                    PaperSize = PaperKind.A4,
-                    Margins = new MarginSettings { Top = 6 },
-                    DocumentTitle = "Formato Legalizacion"
-                };
-
-                 var templatePdfLegalizacion= new TemplatePdfLegalizacion();
-
-                var objectSettings = new ObjectSettings
-                {
-                    PagesCount = true,
-                   // Page= "http://interedes.co/",
-                    HtmlContent = await templatePdfLegalizacion.GetHTMLString(requestPma,_hostingEnvironment.WebRootPath),
-                    WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet =  Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") },
-                    HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = false },
-                    FooterSettings = { FontName = "Arial", FontSize = 9, Line = false, Center = "" }
-                };
-            
-                var pdf = new HtmlToPdfDocument()
-                {
-                    GlobalSettings = globalSettings,
-                    Objects = { objectSettings }
-                };
-            
-                var file = _converter.Convert(pdf);
-
-                return File(file, "application/pdf");
-               // return File(file, "application/pdf", "EmployeeReport.pdf");
-        }
-
-        // GET api/values
-        [HttpGet]
-        [Route("GetPdfReportAutorizacion")] 
-        public async Task<IActionResult>  GetPdfReportAutorizacion()
-        {
-
-            var requestPma= new ResponseApiPma();
-            requestPma.Email="enu-44@hotmail.com";
-            requestPma.Formato="P135-PYC-ADM-16-13-011";
-            requestPma.Version="Version";
-
-            var cliente= new Cliente();
-            cliente.Nombre="Nombre";
-            cliente.Contrato="Contrato";
-            cliente.Proyecto="Proyecto";
-            
-
-            var historias= new List<Historias>();
-            for(var i =0;i<3;i++){
-                var historia1= new Historias();
-                historia1.Alimentacion=i;
-                historia1.Alojamiento=i;
-                historia1.Destino="Destino";
-                historia1.Estado="Estado";
-                historia1.Fecha="Fecha";
-                historia1.Miscelaneos=i;
-                historia1.Orden="Orden";
-                historia1.Origen="Origen";
-                historia1.Tarifa="Tarifa";
-                historia1.Transporte=i;
-                historia1.Valor=i;
-                historias.Add(historia1);
-            }
-
-            var dataPdf= new List<DataRequest>();
-            for(var i =0;i<2;i++){
-
-                  var empleado= new Empleado();
-                    empleado.Apellidos="Apellidos "+i;
-                    empleado.Cargo="Cargo";
-                    empleado.CC=1;
-                    empleado.CECO="CECO";
-                    empleado.Nombres="Nombres";
-                    empleado.Sucursal=2;
-                
-                var dataRequest1= new DataRequest();
-                dataRequest1.Fecha="Fecha";
-                dataRequest1.Objeto="Objeta"+i;
-                dataRequest1.FechaInicio="FechaInicio";
-                dataRequest1.FechaFin="FechaFin";
-                dataRequest1.Consecutivo="Consecutivo"+i;
-                dataRequest1.SumAloj=1;
-                dataRequest1.SumAlim=2;
-                dataRequest1.SumMisc=3;
-                dataRequest1.SumTran=4;
-                dataRequest1.SumValor=4500;
-                dataRequest1.Cliente= cliente;
-                dataRequest1.Empleado= empleado;
-                dataRequest1.Historias= historias;
-                dataPdf.Add(dataRequest1);
-            }
-
-            requestPma.Data=dataPdf;
-
-            var outputStream = new MemoryStream();
-            AutorizacionPdfReport.CreateHtmlHeaderPdfReportStream(_hostingEnvironment.WebRootPath, outputStream,requestPma.Data,requestPma);
-            var stream =  new FileStreamResult(outputStream, "application/pdf")
-            {
-                FileDownloadName = "report.pdf"
-            };
-
-            //return for download
-            //return stream;
-
-            //return for view online
-            var bytepdf= ReadToEnd(stream.FileStream);
-            return File(bytepdf, "application/pdf");
-           //return Ok(data);
-        }
-
-
-
-        [HttpPost]
-        [Route("GetPdfReportLegalizacion")] 
-        public async Task<ActionResult> GetPdfReportLegalizacion([FromBody]Cliente response)
-        {
-           
-
-            var requestPma= new ResponseApiPma();
-            requestPma.Email="enu-44@hotmail.com";
-            requestPma.Formato="P135-PYC-ADM-16-13-011";
-            requestPma.Version="Version";
-
-            var cliente= new Cliente();
-            cliente.Nombre="Nombre";
-            cliente.Contrato="Contrato";
-            cliente.Proyecto="Proyecto";
-
-            
-
-            var historias= new List<Historias>();
-            for(var i =0;i<3;i++){
-                var historia1= new Historias();
-                historia1.Alimentacion=i;
-                historia1.Alojamiento=i;
-                historia1.Destino="Destino";
-                historia1.Estado="Estado";
-                historia1.Fecha="Fecha";
-                historia1.Miscelaneos=i;
-                historia1.Orden="Orden";
-                historia1.Origen="Origen";
-                historia1.Tarifa="Tarifa";
-                historia1.Transporte=i;
-                historia1.Valor=i;
-                historias.Add(historia1);
-            }
-
-
-            var dataPdf= new List<DataRequest>();
-             for(var i =0;i<2;i++){
-
-                  var empleado= new Empleado();
-                    empleado.Apellidos="Apellidos "+i;
-                    empleado.Cargo="Cargo";
-                    empleado.CC=1;
-                    empleado.CECO="CECO";
-                    empleado.Nombres="Nombres";
-                    empleado.Sucursal=2;
-                
-                var dataRequest1= new DataRequest();
-                dataRequest1.Fecha="Fecha";
-                dataRequest1.Objeto="Objeta"+i;
-                dataRequest1.FechaInicio="FechaInicio";
-                dataRequest1.FechaFin="FechaFin";
-                dataRequest1.Consecutivo="Consecutivo"+i;
-                dataRequest1.SumAloj=1;
-                dataRequest1.SumAlim=2;
-                dataRequest1.SumMisc=3;
-                dataRequest1.SumTran=4;
-                dataRequest1.SumValor=4500;
-                dataRequest1.Cliente= cliente;
-                dataRequest1.Empleado= empleado;
-                dataRequest1.Historias= historias;
-                dataPdf.Add(dataRequest1);
-            }
-
-            requestPma.Data=dataPdf;
-
-            
-
-            var outputStream = new MemoryStream();
-            AutorizacionPdfReport.CreateHtmlHeaderPdfReportStream(_hostingEnvironment.WebRootPath, outputStream,requestPma.Data,requestPma);
-            var stream =  new FileStreamResult(outputStream, "application/pdf")
-            {
-                FileDownloadName = "report.pdf"
-            };
-
-            //return for download
-            //return stream;
-
-            //return for view online
-            var bytepdf= ReadToEnd(stream.FileStream);
-            return File(bytepdf, "application/pdf");
-           //return Ok(data);
-        }
-
-
-        [HttpGet]
-        [Route("GetPdfReportLegalizacion")] 
-        //[HttpGet( Name = "PdfReport")]
-        public async Task<ActionResult> GetPdfReportLegalizacion()
-        {
-            var requestPma= new ResponseApiPma();
-            requestPma.Email="enu-44@hotmail.com";
-            requestPma.Formato="P135-PYC-ADM-16-13-011";
-            requestPma.Version="Version";
-
-            var cliente= new Cliente();
-            cliente.Nombre="Nombre";
-            cliente.Contrato="Contrato";
-            cliente.Proyecto="Proyecto";
-
-            
-
-            var historias= new List<Historias>();
-            for(var i =0;i<3;i++){
-                var historia1= new Historias();
-                historia1.Alimentacion=i;
-                historia1.Alojamiento=i;
-                historia1.Destino="Destino";
-                historia1.Estado="Estado";
-                historia1.Fecha="Fecha";
-                historia1.Miscelaneos=i;
-                historia1.Orden="Orden";
-                historia1.Origen="Origen";
-                historia1.Tarifa="Tarifa";
-                historia1.Transporte=i;
-                historia1.Valor=i;
-                historias.Add(historia1);
-            }
-
-
-            var dataPdf= new List<DataRequest>();
-             for(var i =0;i<2;i++){
-
-                  var empleado= new Empleado();
-                    empleado.Apellidos="Apellidos "+i;
-                    empleado.Cargo="Cargo";
-                    empleado.CC=1;
-                    empleado.CECO="CECO";
-                    empleado.Nombres="Nombres";
-                    empleado.Sucursal=2;
-                
-                var dataRequest1= new DataRequest();
-                dataRequest1.Fecha="Fecha";
-                dataRequest1.Objeto="Objeta"+i;
-                dataRequest1.FechaInicio="FechaInicio";
-                dataRequest1.FechaFin="FechaFin";
-                dataRequest1.Consecutivo="Consecutivo"+i;
-                dataRequest1.SumAloj=1;
-                dataRequest1.SumAlim=2;
-                dataRequest1.SumMisc=3;
-                dataRequest1.SumTran=4;
-                dataRequest1.SumValor=4500;
-                dataRequest1.Cliente= cliente;
-                dataRequest1.Empleado= empleado;
-                dataRequest1.Historias= historias;
-                dataPdf.Add(dataRequest1);
-            }
-
-            requestPma.Data=dataPdf;
-            var outputStream = new MemoryStream();
-            LegalizacionPdfReport.CreateHtmlHeaderPdfReportStream(_hostingEnvironment.WebRootPath, outputStream,requestPma.Data,requestPma);
-            var stream =  new FileStreamResult(outputStream, "application/pdf")
-            {
-                FileDownloadName = "report.pdf"
-            };
-            //return for download
-            //return stream;
             //return for view online
             var bytepdf= ReadToEnd(stream.FileStream);
             return File(bytepdf, "application/pdf");
         }
 
-       /* public FileStreamResult generatePdf(){
-             var outputStream = new MemoryStream();
-            HtmlHeaderPdfReport.CreateHtmlHeaderPdfReportStream(_hostingEnvironment.WebRootPath, outputStream);
-            return new FileStreamResult(outputStream, "application/pdf")
-            {
-                FileDownloadName = "report.pdf"
-            };
-        }*/
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ResponseApiPma value)
-        {
-            var rs= value;
-
-            //var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);           
-            //var stream = new System.IO.FileStream(@"C:\Users\shoba_eswar\Documents\REquest.pdf", System.IO.FileMode.Open);
-           /* var outputStream = new MemoryStream();
-            HtmlHeaderPdfReport.CreateHtmlHeaderPdfReportStream(_hostingEnvironment.WebRootPath, outputStream);
-            var stream =  new FileStreamResult(outputStream, "application/pdf")
-            {
-                FileDownloadName = "report.pdf"
-            };
-
-            var bytepdf= ReadToEnd(stream.FileStream);
-            return File(bytepdf, "application/pdf");
-
-            */
-
-            /*
-            response.Content = new StreamContent(stream.FileStream);
-            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-            response.Content.Headers.ContentDisposition.FileName = "NewTab";
-            response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/pdf");
-            return response; */
-
-        
-            //var outputStream = new MemoryStream();
-            // HtmlHeaderPdfReport.CreateHtmlHeaderPdfReportStream(_hostingEnvironment.WebRootPath, outputStream);
-            // Context.ReturnFile(outputStream, string.Format("report_detalle_{0}.pdf","Prueba"), "application/pdf");
-            
-            // return Ok(rs);
-            return Ok();
-    }
-
+        */
     public static byte[] ReadToEnd(System.IO.Stream stream)
     {
         long originalPosition = 0;
