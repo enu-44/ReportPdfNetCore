@@ -33,6 +33,6 @@ namespace pmacore_api.Models
         public long RetornValor {get; set;}
         public long ValorTotal {get; set;}
         public long SaldoFavor {get; set;}
-        public long Observaciones {get; set;}
+        public string Observaciones {get; set;}
     }
 }

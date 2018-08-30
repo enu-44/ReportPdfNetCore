@@ -143,12 +143,17 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin
 			    "</tr>");
             }
 
-			var currencyFormat  = Convert.ToDouble(detalle_data.SumValor);
-            var stringValor= MontoFormat.NumWordsWrapper(currencyFormat);
+			var currencyFormatPma  = Convert.ToDouble(detalle_data.ViaticosPMA);
+			var currencyFormatTrabajador  = Convert.ToDouble(detalle_data.ViaticosTrab);
+            var stringValorPma= MontoFormat.NumWordsWrapper(currencyFormatPma);
+			var stringValorTrabajador= MontoFormat.NumWordsWrapper(currencyFormatTrabajador);
 
             // var traslate=Task.Run(async()=>await TranslateThisAsync(stringValor));
-            var traslate=await Traductor.TranslateThisAsync(stringValor);
-            var replacevalor_string =traslate.Replace("milln","millón");
+            var traslatePma=await Traductor.TranslateThisAsync(stringValorPma);
+            var replacevalor_string_pma =traslatePma.Replace("milln","millón");
+
+			var traslateTrabajador=await Traductor.TranslateThisAsync(stringValorTrabajador);
+            var replacevalor_string_trabajador =traslateTrabajador.Replace("milln","millón");
 
             main.AppendFormat(@"
                 <tr style='text-align: center;'>
@@ -166,11 +171,11 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin
                     <td style='width: 79.5556px; font-size: 9px;' colspan='3'>Total legalizacion Viaticos Trabajador</td>
                     <td style='width: 79.5556px; font-size: 10px;' colspan='3'>{3}</td>
                 </tr>
-            ","Pesos MTC",String.Format("{0:C}", detalle_data.ViaticosPMA),"Pesos MTC",String.Format("{0:C}", detalle_data.ViaticosTrab));
+            ",string.Format("{0} Pesos MTC",replacevalor_string_pma),String.Format("{0:C}", detalle_data.ViaticosPMA),string.Format("{0} Pesos MTC",replacevalor_string_trabajador),String.Format("{0:C}", detalle_data.ViaticosTrab));
 
             main.AppendFormat(@"
             <tr style='text-align: center;'>
-				<td style='width: 76.8889px; font-size: 11px; text-align: left; vertical-align: top;' colspan='7' rowspan='5'>Observaciones:</td>
+				<td style='width: 76.8889px; font-size: 11px; text-align: left; vertical-align: top;' colspan='7' rowspan='5'>Observaciones: {7}</td>
 				<td style='width: 78.6667px; font-size: 11px;' colspan='10'>Menos: Anticipo a Viaticos</td>
 			</tr>
 			<tr style='text-align: center;'>
@@ -201,7 +206,8 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin
             String.Format("{0:C}", detalle_data.ValorTotal),
             detalle_data.DiasRetorn,
             String.Format("{0:C}", detalle_data.RetornValor),
-             String.Format("{0:C}", detalle_data.SaldoFavor));
+            String.Format("{0:C}", detalle_data.SaldoFavor),
+			detalle_data.Observaciones);
             
 
             main.AppendFormat(@"<tr style='text-align: center;'>
