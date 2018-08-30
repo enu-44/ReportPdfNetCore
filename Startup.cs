@@ -82,6 +82,10 @@ namespace pmacore_api
                 RequestPath = new PathString("/wwwroot/fonts") // accessing outside wwwroot folder contents.  
             }); 
 
+           
+
+            app.Run(async (context) =>   await context.Response.WriteAsync("Api Report!"));
+
             app.UseMvc();
         }
     }
