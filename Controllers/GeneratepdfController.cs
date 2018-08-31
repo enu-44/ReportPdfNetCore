@@ -147,7 +147,7 @@ namespace pmacore_api.Controllers
         
         [HttpGet]
         [Route("GetPdfAutorizacionExample")] 
-        public async Task<FileResult >  GetPdfAutorizacion()
+        public async Task<FileResult>  GetPdfAutorizacionExample()
         {
 
             var requestPma= new ResponseApiPma();
