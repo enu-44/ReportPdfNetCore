@@ -24,6 +24,10 @@ using pmacore_api.Controllers.Pdfreport;
 using DinkToPdf.Contracts;
 using DinkToPdf;
 using pmacore_api.Controllers.Pdfreport.PdfTin;
+using System.Net.Http;
+using System.Net;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http.Internal;
 
 namespace pmacore_api.Controllers
 {
@@ -77,8 +81,16 @@ namespace pmacore_api.Controllers
                 };
             
                 var file = _converter.Convert(pdf);
+                var ruta= await postUploadImage(file);
 
-                return File(file, "application/pdf", "Autorizacion.pdf");
+   
+                var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
+                return new FileStreamResult(stream, "application/pdf")
+                {
+                    FileDownloadName = "Formato_Autorizacion.pdf"
+                };
+
+                //return File(file, "application/pdf", "Autorizacion.pdf");
 
                 //return File(file, "application/pdf");
         }
@@ -86,7 +98,7 @@ namespace pmacore_api.Controllers
 
         [HttpPost]
         [Route("PostPdfLegalizacion")] 
-        public async Task<IActionResult>  PostPdfLegalizacion([FromBody] ResponseApiPma requestPma )
+        public async Task<FileStreamResult>  PostPdfLegalizacion([FromBody] ResponseApiPma requestPma )
         {
             var list=requestPma;
             var globalSettings = new GlobalSettings
@@ -118,14 +130,24 @@ namespace pmacore_api.Controllers
             
                 var file = _converter.Convert(pdf);
 
+            
+                var ruta= await postUploadImage(file);
+
+   
+                var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
+                return new FileStreamResult(stream, "application/pdf")
+                {
+                    FileDownloadName = "Formato_Legalizacion.pdf"
+                };
+
                 //return File(file, "application/pdf");
-                return File(file, "application/pdf", "Legalizacion.pdf");
+               // return File(file, "application/pdf", "Legalizacion.pdf");
         }
 
-        /* 
+        
         [HttpGet]
-        [Route("GetPdfAutorizacion")] 
-        public async Task<IActionResult>  GetPdfAutorizacion()
+        [Route("GetPdfAutorizacionExample")] 
+        public async Task<FileStreamResult >  GetPdfAutorizacion()
         {
 
             var requestPma= new ResponseApiPma();
@@ -214,30 +236,118 @@ namespace pmacore_api.Controllers
                     GlobalSettings = globalSettings,
                     Objects = { objectSettings }
                 };
-            
-                var file = _converter.Convert(pdf);
 
-                return File(file, "application/pdf");
+                var file = _converter.Convert(pdf);
+                var ruta= await postUploadImage(file);
+
+   
+                var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
+                return new FileStreamResult(stream, "application/pdf")
+                {
+                    FileDownloadName = "Example.pdf"
+                };
+            /* 
+            
+            var response = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new ByteArrayContent(file)
+            };
+            response.Content = new ByteArrayContent(file);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("inline")
+            {
+                FileName = String.Format("AgencyID" + "userName" + DateTime.Now.ToString("MMMddyyyy_HHmmss"))
+                
+            };
+           
+            response.Headers.CacheControl = new CacheControlHeaderValue()
+            {
+                MaxAge = new TimeSpan(0, 0, 60) // Cache for 30s so IE8 can open the PDF
+            };*/
+
+           
+
+
+      
+
+
+
+            //return response;
+
+            
+               
+
                // return File(file, "application/pdf", "EmployeeReport.pdf");
 
 
 
             // return File(file, "application/pdf");
-            var outputStream = new MemoryStream();
+            //var outputStream = new MemoryStream();
             
             
-            HtmlCellTemplatePdfReport.CreateHtmlHeaderPdfReportStream(_hostingEnvironment.WebRootPath, outputStream);
-            var stream =  new FileStreamResult(outputStream, "application/pdf")
-            {
-                FileDownloadName = "report.pdf"
-            };
+            //HtmlCellTemplatePdfReport.CreateHtmlHeaderPdfReportStream(_hostingEnvironment.WebRootPath, outputStream);
+           // var stream =  new FileStreamResult(outputStream, "application/pdf")
+            //{
+           //     FileDownloadName = "report.pdf"
+           // };
            // return stream;
             //return for view online
-            var bytepdf= ReadToEnd(stream.FileStream);
-            return File(bytepdf, "application/pdf");
-        }
+            //var bytepdf= ReadToEnd(stream.FileStream);
+            //return File(bytepdf, "application/pdf");
+    
+    
+    }
+private async Task<string> postUploadImage(byte[] imageArray)
+        {
+            string rutaFoto=string.Empty;
+            if (imageArray != null && imageArray.Length > 0)
+            {
+                var streamRemote = new MemoryStream(imageArray);
+                var guid = Guid.NewGuid().ToString();
+                var guid2 = Guid.NewGuid().ToString();
+                var file = string.Format("{0}.pdf", guid+guid2);
+                var folder = "/Reports";
+              
+                //rutaFoto= string.Format("{0}/{1}",folder,file);
+               /// var folder_fotos = "/Fotos";
+                rutaFoto= string.Format("{0}/{1}",folder,file);
 
-        */
+                string pathExist= _hostingEnvironment.WebRootPath+folder;// _hostingEnvironment.WebRootPath es Igual a "wwwroot"
+                if(!Directory.Exists(pathExist)){
+                   Directory.CreateDirectory(pathExist);
+                  //string message="No existe el directorio, se creo";
+                }else{
+                  //string message="Si existe el directorio"; 
+                }
+                var formFile = new FormFile(streamRemote , 0, streamRemote.Length, "name", file);
+                if (formFile == null || formFile.Length == 0)
+                    return "file not selected";
+
+                var path = Path.Combine(
+                        Directory.GetCurrentDirectory(), pathExist, 
+                        Path.GetFileName(formFile.FileName));
+                //Ruta foto
+                //var fullPath = string.Format("{0}", path);
+                //foto.Ruta= rutaFoto;
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await formFile.CopyToAsync(stream);
+                }
+            }
+
+            return rutaFoto;
+        }
+    public FileResult TestDownload(string ruta)
+    {
+        HttpContext.Response.ContentType = "application/pdf";
+        FileContentResult result = new FileContentResult(System.IO.File.ReadAllBytes(ruta), "application/pdf")
+        {
+            FileDownloadName = "test.pdf"
+        };
+
+        return result;                                
+    }
+        
     public static byte[] ReadToEnd(System.IO.Stream stream)
     {
         long originalPosition = 0;
@@ -302,4 +412,32 @@ namespace pmacore_api.Controllers
         {
         }
     }
+
+
+    public class eBookResult : IActionResult  
+    {  
+        MemoryStream bookStuff;  
+        string PdfFileName;  
+        HttpRequestMessage httpRequestMessage;  
+        HttpResponseMessage httpResponseMessage;  
+        public eBookResult(MemoryStream data, HttpRequestMessage request, string filename)  
+        {  
+            bookStuff = data;  
+            httpRequestMessage = request;  
+            PdfFileName = filename;  
+        }  
+       
+        public Task ExecuteResultAsync(ActionContext context)
+        {
+            httpResponseMessage = httpRequestMessage.CreateResponse(HttpStatusCode.OK);  
+            httpResponseMessage.Content = new StreamContent(bookStuff);  
+            //httpResponseMessage.Content = new ByteArrayContent(bookStuff.ToArray());  
+            httpResponseMessage.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");  
+            httpResponseMessage.Content.Headers.ContentDisposition.FileName = PdfFileName;  
+            httpResponseMessage.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");  
+  
+            return System.Threading.Tasks.Task.FromResult(httpResponseMessage);  
+        }
+    }  
+    
 }
