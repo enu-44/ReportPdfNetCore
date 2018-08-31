@@ -78,9 +78,10 @@ namespace pmacore_api.Controllers
             
                 var file = _converter.Convert(pdf);
 
-                return File(file, "application/pdf");
-        }
+                return File(file, "application/pdf", "Autorizacion.pdf");
 
+                //return File(file, "application/pdf");
+        }
 
 
         [HttpPost]
@@ -117,8 +118,8 @@ namespace pmacore_api.Controllers
             
                 var file = _converter.Convert(pdf);
 
-                return File(file, "application/pdf");
-               // return File(file, "application/pdf", "EmployeeReport.pdf");
+                //return File(file, "application/pdf");
+                return File(file, "application/pdf", "Legalizacion.pdf");
         }
 
         /* 
