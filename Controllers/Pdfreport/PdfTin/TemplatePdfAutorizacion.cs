@@ -132,11 +132,11 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin
 				"<td class='content_list_small_table'>"+historias.Tarifa+"</td>"+
 				"<td class='content_list_small_table' colspan='2'>"+historias.Orden+"</td>"+
                 "<td class='content_list_small_table'>"+historias.Estado+"</td>"+
-				"<td class='content_list_small_table'>"+String.Format("$ {0:N0}", historias.Alojamiento)+"</td>"+
-				"<td class='content_list_small_table'>"+String.Format("$ {0:N0}", historias.Alimentacion)+"</td>"+
-				"<td class='content_list_small_table'>"+String.Format("$ {0:N0}", historias.Miscelaneos)+"</td>"+
-				"<td class='content_list_small_table'>"+String.Format("$ {0:N0}", historias.Transporte)+"</td>"+
-				"<td class='content_list_small_table'>"+String.Format("$ {0:N0}", historias.Valor)+"</td>"+
+				"<td class='content_list_small_table'>"+String.Format("&#36 {0:N0}", historias.Alojamiento)+"</td>"+
+				"<td class='content_list_small_table'>"+String.Format("&#36 {0:N0}", historias.Alimentacion)+"</td>"+
+				"<td class='content_list_small_table'>"+String.Format("&#36 {0:N0}", historias.Miscelaneos)+"</td>"+
+				"<td class='content_list_small_table'>"+String.Format("&#36 {0:N0}", historias.Transporte)+"</td>"+
+				"<td class='content_list_small_table'>"+String.Format("&#36 {0:N0}", historias.Valor)+"</td>"+
 			    "</tr>");
             }
 
@@ -165,11 +165,11 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin
                     <td class='content_table' colspan='13'>{5}</td>
                 </tr>
             ",
-            String.Format("$ {0:N0}", detalle_data.SumAloj),
-            String.Format("$ {0:N0}", detalle_data.SumAlim),
-            String.Format("$ {0:N0}",  detalle_data.SumMisc),
-            String.Format("$ {0:N0}",  detalle_data.SumTran),
-            String.Format("$ {0:N0}",  detalle_data.SumValor),
+            String.Format("&#36 {0:N0}", detalle_data.SumAloj),
+            String.Format("&#36 {0:N0}", detalle_data.SumAlim),
+            String.Format("&#36 {0:N0}",  detalle_data.SumMisc),
+            String.Format("&#36 {0:N0}",  detalle_data.SumTran),
+            String.Format("&#36 {0:N0}",  detalle_data.SumValor),
             String.Format("{0} Pesos MTC",replacevalor_string));
 
           
@@ -209,8 +209,6 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin
                         CON SU FIRMA EL TRABAJADOR CERTIFICA HABER RECIBIDO LOS VALOES INDICADOS EN ESTA AUTORIZACIÓN DE VIAJE
                     </td>
                 </tr>");
-
-        
 
             main.Append(@"
                     </tbody>
