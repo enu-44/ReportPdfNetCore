@@ -132,14 +132,14 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin
 				"<td class='content_list_small_table'>"+historias.Tarifa+"</td>"+
 				"<td class='content_list_small_table' colspan='2'>"+historias.Orden+"</td>"+
                 "<td class='content_list_small_table'>"+historias.Estado+"</td>"+
-			    "<td class='content_list_small_table'>"+String.Format("{0:C}", historias.Alojamiento)+"</td>"+
-				"<td class='content_list_small_table'>"+String.Format("{0:C}", historias.Alimentacion)+"</td>"+
-				"<td class='content_list_small_table'>"+String.Format("{0:C}", historias.Miscelaneos)+"</td>"+
-				"<td class='content_list_small_table'>"+String.Format("{0:C}", historias.Transporte)+"</td>"+
-				"<td class='content_list_small_table'>"+String.Format("{0:C}", historias.Terminal)+"</td>"+
+			    "<td class='content_list_small_table'>"+String.Format("$ {0:N0}", historias.Alojamiento)+"</td>"+
+				"<td class='content_list_small_table'>"+String.Format("$ {0:N0}", historias.Alimentacion)+"</td>"+
+				"<td class='content_list_small_table'>"+String.Format("$ {0:N0}", historias.Miscelaneos)+"</td>"+
+				"<td class='content_list_small_table'>"+String.Format("$ {0:N0}", historias.Transporte)+"</td>"+
+				"<td class='content_list_small_table'>"+String.Format("$ {0:N0}", historias.Terminal)+"</td>"+
                 "<td class='content_list_small_table'>"+historias.TiquetesPor+"</td>"+
-                "<td class='content_list_small_table'>"+String.Format("{0:C}", historias.Tiquetes)+"</td>"+
-				"<td class='content_list_small_table'>"+String.Format("{0:C}", historias.Valor)+"</td>"+
+                "<td class='content_list_small_table'>"+String.Format("$ {0:N0}", historias.Tiquetes)+"</td>"+
+				"<td class='content_list_small_table'>"+String.Format("$ {0:N0}", historias.Valor)+"</td>"+
 			    "</tr>");
             }
 
@@ -171,7 +171,7 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin
                     <td style='width: 79.5556px; font-size: 9px;' colspan='3'>Total legalizacion Viaticos Trabajador</td>
                     <td style='width: 79.5556px; font-size: 10px;' colspan='3'>{3}</td>
                 </tr>
-            ",string.Format("{0} Pesos MTC",replacevalor_string_pma),String.Format("{0:C}", detalle_data.ViaticosPMA),string.Format("{0} Pesos MTC",replacevalor_string_trabajador),String.Format("{0:C}", detalle_data.ViaticosTrab));
+            ",string.Format("{0} Pesos MTC",replacevalor_string_pma),String.Format("$ {0:N0}", detalle_data.ViaticosPMA),string.Format("{0} Pesos MTC",replacevalor_string_trabajador),String.Format("$ {0:N0}", detalle_data.ViaticosTrab));
 
             main.AppendFormat(@"
             <tr style='text-align: center;'>
@@ -201,12 +201,12 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin
 				<td style='width: 79.5556px; font-size: 11px; background-color: #48d267;' colspan='6'>Saldo de Viaticos (+ a Favor; - a cargo)</td>
 				<td style='width: 79.5556px; font-size: 11px;' colspan='4'> {6}</td>
 			</tr>",detalle_data.DiasPernoc,
-            String.Format("{0:C}", detalle_data.PernocValor), 
-            String.Format("{0:C}", detalle_data.ValorTotal),
-            String.Format("{0:C}", detalle_data.ValorTotal),
+            String.Format("$ {0:N0}", detalle_data.PernocValor), 
+            String.Format("$ {0:N0}", detalle_data.ValorTotal),
+            String.Format("$ {0:N0}", detalle_data.ValorTotal),
             detalle_data.DiasRetorn,
-            String.Format("{0:C}", detalle_data.RetornValor),
-            String.Format("{0:C}", detalle_data.SaldoFavor),
+            String.Format("$ {0:N0}", detalle_data.RetornValor),
+            String.Format("$ {0:N0}", detalle_data.SaldoFavor),
 			detalle_data.Observaciones);
             
 
