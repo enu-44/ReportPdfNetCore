@@ -85,13 +85,12 @@ namespace pmacore_api.Controllers
 
    
                 var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
+                HttpContext.Response.ContentType = "application/pdf";
                 return new FileStreamResult(stream, "application/pdf")
                 {
                     FileDownloadName = "Formato_Autorizacion.pdf"
                 };
-
                 //return File(file, "application/pdf", "Autorizacion.pdf");
-
                 //return File(file, "application/pdf");
         }
 
@@ -135,6 +134,7 @@ namespace pmacore_api.Controllers
 
    
                 var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
+                HttpContext.Response.ContentType = "application/pdf";
                 return new FileStreamResult(stream, "application/pdf")
                 {
                     FileDownloadName = "Formato_Legalizacion.pdf"
@@ -147,7 +147,7 @@ namespace pmacore_api.Controllers
         
         [HttpGet]
         [Route("GetPdfAutorizacionExample")] 
-        public async Task<FileStreamResult >  GetPdfAutorizacion()
+        public async Task<FileResult >  GetPdfAutorizacion()
         {
 
             var requestPma= new ResponseApiPma();
@@ -240,12 +240,14 @@ namespace pmacore_api.Controllers
                 var file = _converter.Convert(pdf);
                 var ruta= await postUploadImage(file);
 
+               return  TestDownload(_hostingEnvironment.WebRootPath+ruta,"Example.pdf");
+
    
-                var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
+               /* var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
                 return new FileStreamResult(stream, "application/pdf")
                 {
                     FileDownloadName = "Example.pdf"
-                };
+                };*/
             /* 
             
             var response = new HttpResponseMessage(HttpStatusCode.OK)
@@ -266,21 +268,8 @@ namespace pmacore_api.Controllers
             };*/
 
            
-
-
-      
-
-
-
             //return response;
-
-            
-               
-
-               // return File(file, "application/pdf", "EmployeeReport.pdf");
-
-
-
+            // return File(file, "application/pdf", "EmployeeReport.pdf");
             // return File(file, "application/pdf");
             //var outputStream = new MemoryStream();
             
@@ -294,8 +283,19 @@ namespace pmacore_api.Controllers
             //return for view online
             //var bytepdf= ReadToEnd(stream.FileStream);
             //return File(bytepdf, "application/pdf");
-    
-    
+
+    }
+
+
+    public FileResult TestDownload(string path, string filename)
+    {
+        HttpContext.Response.ContentType = "application/pdf";
+        FileContentResult result = new FileContentResult(System.IO.File.ReadAllBytes(path), "application/pdf")
+        {
+            FileDownloadName = filename
+        };
+
+        return result;                                
     }
 private async Task<string> postUploadImage(byte[] imageArray)
         {
