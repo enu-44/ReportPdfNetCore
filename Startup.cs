@@ -44,12 +44,12 @@ namespace pmacore_api
                                                         .AllowAnyHeader() 
                                                         .AllowCredentials()); 
                                   }); 
-
                                   
             services.AddOptions();
-             services.AddSingleton<IFileProvider>(
+            services.AddSingleton<IFileProvider>(
                 new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+
            // services.AddMvc(); 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
@@ -81,11 +81,20 @@ namespace pmacore_api
 
             //app.UseHttpsRedirection();
 
+             app.UseStaticFiles();
+
             app.UseStaticFiles(new StaticFileOptions()  
             {  
             FileProvider = new PhysicalFileProvider(  
             Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/fonts")),  
                 RequestPath = new PathString("/wwwroot/fonts") // accessing outside wwwroot folder contents.  
+            }); 
+
+             app.UseStaticFiles(new StaticFileOptions()  
+            {  
+            FileProvider = new PhysicalFileProvider(  
+            Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/Reports")),  
+                RequestPath = new PathString("/wwwroot/Reports") // accessing outside wwwroot folder contents.  
             }); 
 
            

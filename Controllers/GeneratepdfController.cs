@@ -48,7 +48,7 @@ namespace pmacore_api.Controllers
         public async Task<IActionResult>  GetPdfLegalizacion()*/
         [HttpPost]
         [Route("PostPdfAutorizacion")] 
-        public async Task<IActionResult>  PostPdfAutorizacion([FromBody] ResponseApiPma requestPma )
+        public async Task<FileResult>  PostPdfAutorizacion([FromBody] ResponseApiPma requestPma )
         {
             var list=requestPma;
             var globalSettings = new GlobalSettings
@@ -81,7 +81,7 @@ namespace pmacore_api.Controllers
                 };
             
                 var file = _converter.Convert(pdf);
-                var ruta= await postUploadImage(file);
+               /* var ruta= await postUploadImage(file);
 
    
                 var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
@@ -90,14 +90,16 @@ namespace pmacore_api.Controllers
                 {
                     FileDownloadName = "Formato_Autorizacion.pdf"
                 };
-                //return File(file, "application/pdf", "Autorizacion.pdf");
+                */
+
+                return File(file, "application/pdf", "Formato_Autorizacion.pdf");
                 //return File(file, "application/pdf");
         }
 
 
         [HttpPost]
         [Route("PostPdfLegalizacion")] 
-        public async Task<FileStreamResult>  PostPdfLegalizacion([FromBody] ResponseApiPma requestPma )
+        public async Task<FileResult>  PostPdfLegalizacion([FromBody] ResponseApiPma requestPma )
         {
             var list=requestPma;
             var globalSettings = new GlobalSettings
@@ -130,7 +132,7 @@ namespace pmacore_api.Controllers
                 var file = _converter.Convert(pdf);
 
             
-                var ruta= await postUploadImage(file);
+               /* var ruta= await postUploadImage(file);
 
    
                 var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
@@ -138,10 +140,10 @@ namespace pmacore_api.Controllers
                 return new FileStreamResult(stream, "application/pdf")
                 {
                     FileDownloadName = "Formato_Legalizacion.pdf"
-                };
+                };*/
 
                 //return File(file, "application/pdf");
-               // return File(file, "application/pdf", "Legalizacion.pdf");
+               return File(file, "application/pdf", "Formato_Legalizacion.pdf");
         }
 
         
@@ -238,9 +240,11 @@ namespace pmacore_api.Controllers
                 };
 
                 var file = _converter.Convert(pdf);
-                var ruta= await postUploadImage(file);
+                return File(file, "application/pdf", "Formato_Legalizacion.pdf");
+                /*var ruta= await postUploadImage(file);
 
-               return  TestDownload(_hostingEnvironment.WebRootPath+ruta,"Example.pdf");
+                return  TestDownload(_hostingEnvironment.WebRootPath+ruta,"Example.pdf");
+                */
 
    
                /* var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
