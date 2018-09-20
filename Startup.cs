@@ -83,6 +83,12 @@ namespace pmacore_api
 
              app.UseStaticFiles();
 
+              // use static files
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(env.WebRootPath)
+            });
+
             app.UseStaticFiles(new StaticFileOptions()  
             {  
             FileProvider = new PhysicalFileProvider(  
@@ -90,7 +96,7 @@ namespace pmacore_api
                 RequestPath = new PathString("/wwwroot/fonts") // accessing outside wwwroot folder contents.  
             }); 
 
-             app.UseStaticFiles(new StaticFileOptions()  
+            app.UseStaticFiles(new StaticFileOptions()  
             {  
             FileProvider = new PhysicalFileProvider(  
             Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/Reports")),  

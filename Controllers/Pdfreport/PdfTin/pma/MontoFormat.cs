@@ -1,5 +1,5 @@
 using System;
-namespace pmacore_api.Controllers.Pdfreport.PdfTin
+namespace pmacore_api.Controllers.Pdfreport.PdfTin.pma
 {
     public static class MontoFormat
     {

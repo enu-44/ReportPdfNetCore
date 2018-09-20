@@ -6,15 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using pmacore_api.Models;
+using pmacore_api.Models.pma;
 
 namespace pmacore_api.Controllers.Pdfreport.PdfTin.example
 { 
     public  class TemplateGenerator
     {
-		
- 	
-
         public static string GetHTMLString(ResponseApiPma employees,String wwwroot)
         {
             var encabezado= Path.Combine(wwwroot, "Images","_pma.png");

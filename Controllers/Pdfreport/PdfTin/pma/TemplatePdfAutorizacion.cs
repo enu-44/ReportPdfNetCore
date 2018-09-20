@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using pmacore_api.Models;
+using pmacore_api.Models.pma;
 
-namespace pmacore_api.Controllers.Pdfreport.PdfTin
+namespace pmacore_api.Controllers.Pdfreport.PdfTin.pma
 {
     public class TemplatePdfAutorizacion
     {

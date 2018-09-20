@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace pmacore_api.Models
+namespace pmacore_api.Models.pma
 {
     public class Historias
     {

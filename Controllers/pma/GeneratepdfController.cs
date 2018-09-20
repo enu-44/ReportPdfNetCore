@@ -14,22 +14,23 @@ using pmacore_api.Models;*/
 //using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
-using pmacore_api.Models;
+using pmacore_api.Models.pma;
 using System.IO;
 using pmacore_api.Controllers.Pdfreport;
 using DinkToPdf.Contracts;
 using DinkToPdf;
-using pmacore_api.Controllers.Pdfreport.PdfTin;
+using pmacore_api.Controllers.Pdfreport.PdfTin.pma;
 using System.Net.Http;
 using System.Net;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http.Internal;
 
-namespace pmacore_api.Controllers
+namespace pmacore_api.Controllers.pma
 {
     [Route("api/[controller]")]
     //[ApiController]
@@ -82,8 +83,6 @@ namespace pmacore_api.Controllers
             
                 var file = _converter.Convert(pdf);
                /* var ruta= await postUploadImage(file);
-
-   
                 var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
                 HttpContext.Response.ContentType = "application/pdf";
                 return new FileStreamResult(stream, "application/pdf")
@@ -111,7 +110,7 @@ namespace pmacore_api.Controllers
                     DocumentTitle = "Formato Legalizacion"
                 };
 
-                 var templatePdfLegalizacion= new TemplatePdfLegalizacion();
+                var templatePdfLegalizacion= new TemplatePdfLegalizacion();
 
                 var objectSettings = new ObjectSettings
                 {
@@ -145,6 +144,53 @@ namespace pmacore_api.Controllers
                 //return File(file, "application/pdf");
                return File(file, "application/pdf", "Formato_Legalizacion.pdf");
         }
+
+
+
+        [HttpGet]
+        [Route("GetExcelExample")] 
+        public  async Task<FileResult>  GetExcelExample()
+        {
+            Stream result;
+            string empresa= string.Empty;
+            string sWebRootFolder = _hostingEnvironment.WebRootPath;
+            string sFileName = @"INVENTARIO_CABLEOPERADORES.xlsx";
+            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
+           
+            var memory = new MemoryStream();
+           
+            //var archivo=file.OpenRead();
+            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+            /* 
+            result = new FileStream( 
+                        path: file.FullName, 
+                        mode: FileMode.Open, 
+                        access: FileAccess.Read, 
+                        share: FileShare.None,
+                        bufferSize: 4096,
+                        options: FileOptions.DeleteOnClose );
+            Console.Write("Consulta: ", result.ToString());*/
+            /*
+            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName); */
+               
+           /// return File(result, "application/vnd.ms-excel");
+
+           // var bytepdf= ReadToEnd(archivo);
+
+            //return File(archivo, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Formato_Excel.xlsx");
+            //return File(bytepdf, "application/vnd.ms-excel");
+        }
+
 
         
         [HttpGet]

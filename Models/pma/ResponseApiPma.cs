@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using pmacore_api.Models;
 
-namespace pmacore_api.Models
+namespace pmacore_api.Models.pma
 {
     public class ResponseApiPma
     {

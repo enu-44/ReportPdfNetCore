@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using pmacore_api.Models;
+using pmacore_api.Models.pma;
 
 
-namespace pmacore_api.Controllers.Pdfreport.PdfTin
+namespace pmacore_api.Controllers.Pdfreport.PdfTin.pma
 {
     public class TemplatePdfLegalizacion
     {
