@@ -29,6 +29,10 @@ using System.Net.Http;
 using System.Net;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http.Internal;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using NPOI.HSSF.UserModel;
+using pmacore_api.Models.pma.excell;
 
 namespace pmacore_api.Controllers.pma
 {
@@ -154,11 +158,19 @@ namespace pmacore_api.Controllers.pma
             Stream result;
             string empresa= string.Empty;
             string sWebRootFolder = _hostingEnvironment.WebRootPath;
-            string sFileName = @"INVENTARIO_CABLEOPERADORES.xlsx";
+            string sFileName = @"FORMATO_CAUSACION.xlsx";
             FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
+
+            var memory = new MemoryStream();                
            
-            var memory = new MemoryStream();
-           
+
+            if (!file.Exists)
+            {
+
+            }else{
+
+                 
+           /* 
             //var archivo=file.OpenRead();
             using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
             {
@@ -166,6 +178,241 @@ namespace pmacore_api.Controllers.pma
             }
             memory.Position = 0;
             return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+            */
+
+            using (
+                FileStream rstrEmpty = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open, FileAccess.Read))
+                {
+                    IWorkbook workbookEmpty;
+                   // rstr.CopyTo(memory);
+                  
+                   // memory.Position = 0;
+                   workbookEmpty = new XSSFWorkbook(rstrEmpty);
+                   ISheet excelSheetEmpty = workbookEmpty.GetSheet("Relacion_Causion_Viaticos");
+
+                    var style1 = workbookEmpty.CreateCellStyle();
+                    style1.BorderBottom = BorderStyle.Thin;
+                    style1.BorderLeft =BorderStyle.Thin;
+                    style1.BorderRight =BorderStyle.Thin;
+                    style1.BorderTop =BorderStyle.Thin;
+
+                   using (FileStream wstrEmpty = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+                   {
+                    //Realizar consulta y recorrer por cada elemento
+                    //llenar el archivo de excel
+
+                     var f=0;
+                    for(int i=0; i<=200;i++){
+                        //IRow row = excelSheetEmpty.GetRow(11+l);
+                        ///row.Height = 20;
+                        var cell = excelSheetEmpty.CreateRow(8+f);
+                        cell.Height=30 * 10;
+                        cell.CreateCell(0).SetCellValue("");
+                        cell.GetCell(0).CellStyle=style1;
+                        //cell.GetCell(0).CellType=CellType.Unknown;
+                        //HSSFDateUtil.isCellDateFormatted();
+
+                        cell.CreateCell(1).SetCellValue("");
+                        cell.GetCell(1).CellStyle=style1;
+
+                        cell.CreateCell(2).SetCellValue("");
+                        cell.GetCell(2).CellStyle=style1;
+
+                        cell.CreateCell(3).SetCellValue("");
+                        cell.GetCell(3).CellStyle=style1;
+
+                        cell.CreateCell(4).SetCellValue("");
+                        cell.GetCell(4).CellStyle=style1;
+
+                        cell.CreateCell(5).SetCellValue("");
+                        cell.GetCell(5).CellStyle=style1;
+
+                        cell.CreateCell(6).SetCellValue("");
+                        cell.GetCell(6).CellStyle=style1;
+
+                        cell.CreateCell(7).SetCellValue("");
+                        cell.GetCell(7).CellStyle=style1;
+
+                        cell.CreateCell(8).SetCellValue("");
+                        cell.GetCell(8).CellStyle=style1;
+
+                        cell.CreateCell(9).SetCellValue("");
+                        cell.GetCell(9).CellStyle=style1;
+
+                        cell.CreateCell(10).SetCellValue("");
+                        cell.GetCell(10).CellStyle=style1;
+                        
+                        cell.CreateCell(11).SetCellValue("");
+                        cell.GetCell(11).CellStyle=style1;
+
+                        cell.CreateCell(12).SetCellValue("");
+                        cell.GetCell(12).CellStyle=style1;
+
+                        cell.CreateCell(13).SetCellValue("");
+                        cell.GetCell(13).CellStyle=style1;
+
+                        cell.CreateCell(14).SetCellValue("");
+                        cell.GetCell(14).CellStyle=style1;
+
+                        f++;
+                    }
+
+                    
+                    var l=0;
+                    for(int i=0; i<=200;i++){
+                        //IRow row = excelSheetEmpty.GetRow(11+l);
+                        ///row.Height = 20;
+                        var cell = excelSheetEmpty.GetRow(8+l);
+                        //cell.Height=30 * 13;
+                        cell.GetCell(0).SetCellValue("");
+                        //cell.GetCell(0).CellStyle=style1;
+
+                        cell.GetCell(1).SetCellValue("");
+                        //cell.GetCell(1).CellStyle=style1;
+
+                        cell.GetCell(2).SetCellValue("");
+                        //cell.GetCell(2).CellStyle=style1;
+
+                        cell.GetCell(3).SetCellValue("");
+                        //cell.GetCell(3).CellStyle=style1;
+
+                        cell.GetCell(4).SetCellValue("");
+                        //cell.GetCell(4).CellStyle=style1;
+
+                        cell.GetCell(5).SetCellValue("");
+                       // cell.GetCell(5).CellStyle=style1;
+
+                        cell.GetCell(6).SetCellValue("");
+                        //cell.GetCell(6).CellStyle=style1;
+
+                        cell.GetCell(7).SetCellValue("");
+                        //cell.GetCell(7).CellStyle=style1;
+
+                        cell.GetCell(8).SetCellValue("");
+                        //cell.GetCell(8).CellStyle=style1;
+
+                        cell.GetCell(9).SetCellValue("");
+                        //cell.GetCell(9).CellStyle=style1;
+
+                        cell.GetCell(10).SetCellValue("");
+                        //cell.GetCell(10).CellStyle=style1;
+                        
+                        cell.GetCell(11).SetCellValue("");
+                        //cell.GetCell(11).CellStyle=style1;
+
+                        cell.GetCell(12).SetCellValue("");
+                        //cell.GetCell(12).CellStyle=style1;
+
+                        cell.GetCell(13).SetCellValue("");
+                        //cell.GetCell(13).CellStyle=style1;
+
+                        cell.GetCell(14).SetCellValue("");
+                        //cell.GetCell(14).CellStyle=style1;
+
+                        l++;
+                    }
+                    workbookEmpty.Write(wstrEmpty);
+                    wstrEmpty.Close();
+                    rstrEmpty.Close();
+                   }
+                }
+          
+                using (
+                FileStream rstr = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open, FileAccess.Read))
+                {
+                    IWorkbook workbook;
+                   // rstr.CopyTo(memory);
+                   // memory.Position = 0;
+                    workbook = new XSSFWorkbook(rstr);
+                    
+                   ISheet excelSheet = workbook.GetSheet("Relacion_Causion_Viaticos");
+                   using (FileStream wstr = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+                   {
+                    //Realizar consulta y recorrer por cada elemento
+                    //llenar el archivo de excel
+
+                    
+
+                    IRow FechaInicio = excelSheet.GetRow(3);
+                    FechaInicio.GetCell(11).SetCellValue("12/12/2018");
+
+                    IRow FechaFin = excelSheet.GetRow(4);
+                    FechaFin.GetCell(11).SetCellValue("12/12/2019");
+
+                    IRow Empresa = excelSheet.GetRow(4);
+                    Empresa.GetCell(13).SetCellValue("54");
+
+                    empresa= "";
+                 
+                    /* 
+                    var style2 = workbook.CreateCellStyle();
+                    style2.FillForegroundColor = HSSFColor.Yellow.Index2;
+                    style2.FillPattern = FillPattern.SolidForeground;*/
+
+                    //var numero_apoyo=0;
+
+                    //var count=0;
+                    var j = 0;
+                    for(int i=0; i<=100;i++){
+                   // foreach (var item in dataList)
+                       // count++;
+                       // numero_apoyo= numero_apoyo+1;
+                            //for(int i=0; i<=dataList.Count;i++){
+                            IRow row = excelSheet.GetRow(8+j);
+                            row.GetCell(0).SetCellValue(j);
+                            row.GetCell(1).SetCellValue("1082778631");
+                            row.GetCell(2).SetCellValue("Enuar Muñoz");
+                            row.GetCell(3).SetCellValue("ADMIN");
+                            row.GetCell(4).SetCellValue("PMA");
+
+
+                           
+
+                            row.GetCell(5).SetCellValue("12/12/2018");
+                            row.GetCell(6).SetCellValue("12/12/2019");
+                            row.GetCell(7).SetCellValue("54");
+                            row.GetCell(8).SetCellValue(3);
+                            row.GetCell(9).SetCellValue(23800);
+                            row.GetCell(10).SetCellValue(30000);
+                            row.GetCell(11).SetCellValue(25000);
+                            row.GetCell(12).SetCellValue(44000);
+                            row.GetCell(13).SetCellValue(0);
+                            row.GetCell(14).SetCellValue(1200);
+                            j++;
+                       // }
+                    }
+
+                    workbook.Write(wstr);
+                    wstr.Close();
+                    rstr.Close();
+                }
+            }
+
+       ///  archivo=file.OpenRead();
+         
+
+            }
+
+
+
+
+             
+            //var archivo=file.OpenRead();
+            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+            
+
+           //return File(archivo, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+
+           
+        ///var empresaNameFormated= RemoveDiacritics(empresa);
+
+       // Context.ReturnFile(archivo, string.Format("Inventario_{0}.xlsx",empresaNameFormated), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    
             /* 
             result = new FileStream( 
                         path: file.FullName, 
@@ -190,6 +437,286 @@ namespace pmacore_api.Controllers.pma
             //return File(archivo, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Formato_Excel.xlsx");
             //return File(bytepdf, "application/vnd.ms-excel");
         }
+
+
+        [HttpPost]
+        [Route("PostExcelViaticos")] 
+        public  async Task<FileResult>  PostExcelViaticos([FromBody] Viatico requestViaticos)
+        {
+            Stream result;
+            string empresa= string.Empty;
+            string sWebRootFolder = _hostingEnvironment.WebRootPath;
+            string sFileName = @"FORMATO_CAUSACION.xlsx";
+            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
+
+            var memory = new MemoryStream();   
+            if (!file.Exists)
+            {
+
+            }else{
+
+            using (
+                FileStream rstrEmpty = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open, FileAccess.Read))
+                {
+                    IWorkbook workbookEmpty;
+                   // rstr.CopyTo(memory);
+                   // memory.Position = 0;
+                   workbookEmpty = new XSSFWorkbook(rstrEmpty);
+                   ISheet excelSheetEmpty = workbookEmpty.GetSheet("Relacion_Causion_Viaticos");
+
+                    var  style1 = workbookEmpty.CreateCellStyle();
+                    style1.BorderBottom = BorderStyle.Thin;
+                    style1.BorderLeft =BorderStyle.Thin;
+                    style1.BorderRight =BorderStyle.Thin;
+                    style1.BorderTop =BorderStyle.Thin;
+                  
+                 
+                    
+
+                   using (FileStream wstrEmpty = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+                   {
+                    //Realizar consulta y recorrer por cada elemento
+
+                    var addNewRoows= requestViaticos.Data.Count+4;
+                    var rowsExist= excelSheetEmpty.PhysicalNumberOfRows;
+
+                    if(addNewRoows<excelSheetEmpty.PhysicalNumberOfRows){
+                        var f=0;
+                        for(int i=0; i<=(rowsExist-4);i++){
+                            //IRow row = excelSheetEmpty.GetRow(11+l);
+                            ///row.Height = 20;
+                            
+                            var cell = excelSheetEmpty.CreateRow(8+f);
+                            cell.Height=30 * 10;
+                            cell.CreateCell(0).SetCellValue("");
+                            cell.GetCell(0).CellStyle=style1;
+                            //cell.GetCell(0).CellType=CellType.Unknown;
+                            //HSSFDateUtil.isCellDateFormatted();
+
+                            cell.CreateCell(1).SetCellValue("");
+                            cell.GetCell(1).CellStyle=style1;
+
+                            cell.CreateCell(2).SetCellValue("");
+                            cell.GetCell(2).CellStyle=style1;
+
+                            cell.CreateCell(3).SetCellValue("");
+                            cell.GetCell(3).CellStyle=style1;
+
+                            cell.CreateCell(4).SetCellValue("");
+                            cell.GetCell(4).CellStyle=style1;
+
+                            cell.CreateCell(5).SetCellValue("");
+                            cell.GetCell(5).CellStyle=style1;
+
+                            cell.CreateCell(6).SetCellValue("");
+                            cell.GetCell(6).CellStyle=style1;
+
+                            cell.CreateCell(7).SetCellValue("");
+                            cell.GetCell(7).CellStyle=style1;
+
+                            cell.CreateCell(8).SetCellValue("");
+                            cell.GetCell(8).CellStyle=style1;
+
+                            cell.CreateCell(9).SetCellValue("");
+                            cell.GetCell(9).CellStyle=style1;
+
+                            cell.CreateCell(10).SetCellValue("");
+                            cell.GetCell(10).CellStyle=style1;
+                            
+                            cell.CreateCell(11).SetCellValue("");
+                            cell.GetCell(11).CellStyle=style1;
+
+                            cell.CreateCell(12).SetCellValue("");
+                            cell.GetCell(12).CellStyle=style1;
+
+                            cell.CreateCell(13).SetCellValue("");
+                            cell.GetCell(13).CellStyle=style1;
+
+                            cell.CreateCell(14).SetCellValue("");
+                            cell.GetCell(14).CellStyle=style1;
+
+                            f++;
+                        }
+                    }else{
+                        var f=0;
+                        for(int i=0; i<=addNewRoows;i++){
+                            //IRow row = excelSheetEmpty.GetRow(11+l);
+                            ///row.Height = 20;
+                            var cell = excelSheetEmpty.CreateRow(8+f);
+                            cell.Height=30 * 10;
+                            cell.CreateCell(0).SetCellValue("");
+                            cell.GetCell(0).CellStyle=style1;
+                            //cell.GetCell(0).CellType=CellType.Unknown;
+                            //HSSFDateUtil.isCellDateFormatted();
+
+                            cell.CreateCell(1).SetCellValue("");
+                            cell.GetCell(1).CellStyle=style1;
+
+                            cell.CreateCell(2).SetCellValue("");
+                            cell.GetCell(2).CellStyle=style1;
+
+                            cell.CreateCell(3).SetCellValue("");
+                            cell.GetCell(3).CellStyle=style1;
+
+                            cell.CreateCell(4).SetCellValue("");
+                            cell.GetCell(4).CellStyle=style1;
+
+                            cell.CreateCell(5).SetCellValue("");
+                            cell.GetCell(5).CellStyle=style1;
+
+                            cell.CreateCell(6).SetCellValue("");
+                            cell.GetCell(6).CellStyle=style1;
+
+                            cell.CreateCell(7).SetCellValue("");
+                            cell.GetCell(7).CellStyle=style1;
+
+                            cell.CreateCell(8).SetCellValue("");
+                            cell.GetCell(8).CellStyle=style1;
+
+                            cell.CreateCell(9).SetCellValue("");
+                            cell.GetCell(9).CellStyle=style1;
+
+                            cell.CreateCell(10).SetCellValue("");
+                            cell.GetCell(10).CellStyle=style1;
+                            
+                            cell.CreateCell(11).SetCellValue("");
+                            cell.GetCell(11).CellStyle=style1;
+
+                            cell.CreateCell(12).SetCellValue("");
+                            cell.GetCell(12).CellStyle=style1;
+
+                            cell.CreateCell(13).SetCellValue("");
+                            cell.GetCell(13).CellStyle=style1;
+
+                            cell.CreateCell(14).SetCellValue("");
+                            cell.GetCell(14).CellStyle=style1;
+                            f++;
+                        }
+                    }
+                    
+                    workbookEmpty.Write(wstrEmpty);
+                    wstrEmpty.Close();
+                    rstrEmpty.Close();
+                   }
+                }
+
+                
+          
+                using (
+                FileStream rstr = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open, FileAccess.Read))
+                {
+                    IWorkbook workbook;
+                   // rstr.CopyTo(memory);
+                   // memory.Position = 0;
+                    workbook = new XSSFWorkbook(rstr);
+                    
+                   ISheet excelSheet = workbook.GetSheet("Relacion_Causion_Viaticos");
+                   using (FileStream wstr = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+                   {
+                    //Realizar consulta y recorrer por cada elemento
+                    //llenar el archivo de excel
+
+                    IRow FechaInicio = excelSheet.GetRow(3);
+                    FechaInicio.GetCell(11).SetCellValue(requestViaticos.FechaInicial);
+
+                    IRow FechaFin = excelSheet.GetRow(4);
+                    FechaFin.GetCell(11).SetCellValue(requestViaticos.FechaFinal);
+
+                    IRow Contrato = excelSheet.GetRow(3);
+                    Contrato.CreateCell(2).SetCellValue(requestViaticos.Contrato);
+
+                    IRow Base = excelSheet.GetRow(4);
+                    Base.CreateCell(2).SetCellValue(requestViaticos.Base);
+
+                    IRow Relacion = excelSheet.GetRow(3);
+                    Relacion.GetCell(13).SetCellValue(requestViaticos.Relacion);
+
+                    /* 
+                    var style2 = workbook.CreateCellStyle();
+                    style2.FillForegroundColor = HSSFColor.Yellow.Index2;
+                    style2.FillPattern = FillPattern.SolidForeground;*/
+                    //var numero_apoyo=0;
+
+                    double totalViaticoPermanente= 0;
+                    double totalViaticoOcasional= 0;
+                    double totalSaldoAnticipo= 0;
+                    double totalDescAlim= 0;
+                    double totalDescTran= 0;
+
+                    //var count=0;
+                    var j = 0;
+                    ///for(int i=0; i<=100;i++){
+                    foreach (var item in requestViaticos.Data){
+
+                        totalViaticoPermanente=totalViaticoPermanente+double.Parse(item.ViaticoPermanente,System.Globalization.CultureInfo.InvariantCulture);
+                        totalViaticoOcasional=totalViaticoOcasional+double.Parse(item.ViaticoOcasional,System.Globalization.CultureInfo.InvariantCulture);
+                        totalSaldoAnticipo=totalSaldoAnticipo+double.Parse(item.SaldoAnticipo,System.Globalization.CultureInfo.InvariantCulture);
+                        totalDescAlim=totalDescAlim+double.Parse(item.DescAlim,System.Globalization.CultureInfo.InvariantCulture);
+                        totalDescTran=totalDescTran+double.Parse(item.DescTran,System.Globalization.CultureInfo.InvariantCulture);
+
+                       // count++;
+                       // numero_apoyo= numero_apoyo+1;
+                            //for(int i=0; i<=dataList.Count;i++){
+                            IRow row = excelSheet.GetRow(8+j);
+                            row.GetCell(0).SetCellValue(item.Consecutivo);
+                            row.GetCell(1).SetCellValue(item.Cedula);
+                            row.GetCell(2).SetCellValue(string.Format("{0}",item.Nombre));
+                            row.GetCell(3).SetCellValue(item.Cargo);
+                            row.GetCell(4).SetCellValue(item.Sucursal);
+
+                            row.GetCell(5).SetCellValue(item.FechaInicial);
+                            row.GetCell(6).SetCellValue(item.FechaFinal);
+                            row.GetCell(7).SetCellValue(item.Orden);
+                            row.GetCell(8).SetCellValue(item.TotalDias);
+                            row.GetCell(9).SetCellValue(item.Incidencia);
+
+
+                            row.GetCell(10).SetCellValue(string.Format("$ {0:N2}", double.Parse(item.ViaticoPermanente,System.Globalization.CultureInfo.InvariantCulture)));
+                            row.GetCell(11).SetCellValue(string.Format("$ {0:N2}", double.Parse(item.ViaticoOcasional,System.Globalization.CultureInfo.InvariantCulture)));
+                            row.GetCell(12).SetCellValue(string.Format("$ {0:N2}", double.Parse(item.SaldoAnticipo,System.Globalization.CultureInfo.InvariantCulture)));
+                            row.GetCell(13).SetCellValue(string.Format("$ {0:N2}", double.Parse(item.DescAlim,System.Globalization.CultureInfo.InvariantCulture)));
+                            row.GetCell(14).SetCellValue(string.Format("$ {0:N2}", double.Parse(item.DescTran,System.Globalization.CultureInfo.InvariantCulture)));
+                            j++;
+
+                           
+                       // }
+                    }
+
+
+                    IRow rowTotal = excelSheet.GetRow(8+j+1);
+                            rowTotal.GetCell(10).SetCellValue(string.Format("$ {0:N2}", totalViaticoPermanente));
+                            rowTotal.GetCell(11).SetCellValue(string.Format("$ {0:N2}", totalViaticoOcasional));
+                            rowTotal.GetCell(12).SetCellValue(string.Format("$ {0:N2}", totalSaldoAnticipo));
+                            rowTotal.GetCell(13).SetCellValue(string.Format("$ {0:N2}", totalDescAlim));
+                            rowTotal.GetCell(14).SetCellValue(string.Format("$ {0:N2}", totalDescTran));
+
+                   
+                   // rowTotal.GetCell(14).SetCellValue(totalDescTran);
+
+
+                    workbook.Write(wstr);
+                    wstr.Close();
+                    rstr.Close();
+                }
+            }
+
+       ///  archivo=file.OpenRead();
+         
+
+            }
+
+            //var archivo=file.OpenRead();
+            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+            
+        }
+
+
+       
 
 
         
