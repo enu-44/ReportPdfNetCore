@@ -33,6 +33,7 @@ using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using NPOI.HSSF.UserModel;
 using pmacore_api.Models.pma.excell;
+using pmacore_api.Models.datatake;
 
 namespace pmacore_api.Controllers.pma
 {
@@ -154,7 +155,7 @@ namespace pmacore_api.Controllers.pma
 
         [HttpGet]
         [Route("GetExcelExample")] 
-        public  async Task<FileResult>  GetExcelExample()
+        public  async Task<IActionResult>  GetExcelExample()
         {
             Stream result;
             string empresa= string.Empty;
@@ -165,10 +166,14 @@ namespace pmacore_api.Controllers.pma
             FileInfo file = new FileInfo(Path.Combine(sWebRootFolder,"Reports", sFileName));
 
             var memory = new MemoryStream();                
-           
-
+        
             if (!file.Exists)
             {
+                var response =new ResponseApi();
+                response.IsSuccess=false;
+                response.Message="File no exist";
+              
+               return Ok(response);
 
             }else{
 
@@ -444,9 +449,9 @@ namespace pmacore_api.Controllers.pma
 
         [HttpPost]
         [Route("PostExcelViaticos")] 
-        public  async Task<FileResult>  PostExcelViaticos([FromBody] Viatico requestViaticos)
+        public  async Task<IActionResult>  PostExcelViaticos([FromBody] Viatico requestViaticos)
         {
-            Stream result;
+            ///Stream result;
             string empresa= string.Empty;
             string sWebRootFolder = _hostingEnvironment.WebRootPath;
             string sFileName = @"FORMATO_CAUSACION.xlsx";
@@ -455,7 +460,12 @@ namespace pmacore_api.Controllers.pma
             var memory = new MemoryStream();   
             if (!file.Exists)
             {
+                var response =new ResponseApi();
+                response.IsSuccess=false;
+                response.Message="File no exist";
+              
 
+               return Ok(response);
             }else{
 
             using (
