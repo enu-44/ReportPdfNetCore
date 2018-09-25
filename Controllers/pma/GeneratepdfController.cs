@@ -454,7 +454,7 @@ namespace pmacore_api.Controllers.pma
             ///Stream result;
             string empresa= string.Empty;
             string sWebRootFolder = _hostingEnvironment.WebRootPath;
-            string sFileName = @"FORMATO_CAUSACION.xlsx";
+            string sFileName = "FORMATO_CAUSACION.xlsx";
             FileInfo file = new FileInfo(Path.Combine(sWebRootFolder,"Reports", sFileName));
 
             var memory = new MemoryStream();   

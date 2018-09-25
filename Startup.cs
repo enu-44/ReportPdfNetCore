@@ -81,7 +81,7 @@ namespace pmacore_api
 
             ///app.UseHttpsRedirection();
 
-             app.UseStaticFiles();
+            app.UseStaticFiles();
 
               // use static files
             app.UseStaticFiles(new StaticFileOptions
@@ -103,9 +103,6 @@ namespace pmacore_api
                 RequestPath = new PathString("/wwwroot/Reports") // accessing outside wwwroot folder contents.  
             }); 
             
-
-           
-
             app.Run(async (context) =>   await context.Response.WriteAsync("Api Report!"));
 
             app.UseMvc();
