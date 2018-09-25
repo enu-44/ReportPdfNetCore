@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http.Internal;
 using pmacore_api.Models.datatake;
 using pmacore_api.services;
+using pmacore_api.Controllers.Pdfreport.PdfTin.datatake;
 
 namespace pmacore_api.Controllers
 {
@@ -72,7 +73,7 @@ namespace pmacore_api.Controllers
 
         [HttpGet]
         [Route("GetPdfExampleCables")]
-        public async Task<ActionResult> GetPdfAutorizacionExample()
+        public async Task<IActionResult> GetPdfAutorizacionExample()
         {
             var listElementosCables = new ResponseElementoCables();
             var prefix = "";
@@ -91,7 +92,50 @@ namespace pmacore_api.Controllers
             }
 
             var cables = (ResponseElementoCables)response.Result;
-            return Ok(response);
+
+
+             
+            var globalSettings = new GlobalSettings
+                {
+                    ColorMode = ColorMode.Color,
+                    Orientation = Orientation.Portrait,
+                    PaperSize = PaperKind.A4,
+                    Margins = new MarginSettings { Top = 6 },
+                    DocumentTitle = "Formato General Inventario"
+                };
+
+
+                var templatePdfGeneral= new TemplatePdfGeneral();
+                //var template= await templatePdfAutorizacion.GetHTMLString(requestPma,_hostingEnvironment.WebRootPath);
+            
+                var objectSettings = new ObjectSettings
+                {
+                    PagesCount = true,
+                   // Page= "http://interedes.co/",
+                    HtmlContent = await templatePdfGeneral.GetHTMLString(cables,_hostingEnvironment.WebRootPath),
+                    WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet =  Path.Combine(Directory.GetCurrentDirectory(), "assets", "style_inventario.css") },
+                    HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = false },
+                    FooterSettings = { FontName = "Arial", FontSize = 9, Line = false, Center = "" }
+                };
+            
+                var pdf = new HtmlToPdfDocument()
+                {
+                    GlobalSettings = globalSettings,
+                    Objects = { objectSettings }
+                };
+            
+                var file = _converter.Convert(pdf);
+               /* var ruta= await postUploadImage(file);
+                var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
+                HttpContext.Response.ContentType = "application/pdf";
+                return new FileStreamResult(stream, "application/pdf")
+                {
+                    FileDownloadName = "Formato_Autorizacion.pdf"
+                };
+                */
+
+            return File(file, "application/pdf", "Formato_Inventario_General.pdf");
+            ///return Ok(response);
         }
 
         // PUT api/values/5
