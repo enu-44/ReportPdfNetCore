@@ -463,8 +463,8 @@ namespace pmacore_api.Controllers.pma
             
                 var response =new ResponseApi();
                 response.IsSuccess=false;
-                response.Message="File no exist: "+file.DirectoryName;
-                response.Result=file;
+                response.Message="File no exist: "+file.FullName;
+                //response.Result=file;
 
                 Console.Write("File no exist");
             
