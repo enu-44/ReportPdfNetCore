@@ -56,6 +56,7 @@ namespace pmacore_api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
              app.UseCors(builder =>
@@ -79,9 +80,9 @@ namespace pmacore_api
             //app.UseMvcWithDefaultRoute();
 
 
-            ///app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
-            app.UseStaticFiles();
+             app.UseStaticFiles();
 
               // use static files
             app.UseStaticFiles(new StaticFileOptions
@@ -102,7 +103,9 @@ namespace pmacore_api
             Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/Reports")),  
                 RequestPath = new PathString("/wwwroot/Reports") // accessing outside wwwroot folder contents.  
             }); 
-            
+
+           
+
             app.Run(async (context) =>   await context.Response.WriteAsync("Api Report!"));
 
             app.UseMvc();

@@ -453,20 +453,22 @@ namespace pmacore_api.Controllers.pma
         {
             ///Stream result;
             string empresa= string.Empty;
-            string sWebRootFolder = "wwwroot";
+            string sWebRootFolder = _hostingEnvironment.WebRootPath;
             string sFileName = "FORMATO_CAUSACION.xlsx";
             FileInfo file = new FileInfo(Path.Combine(sWebRootFolder,"Reports", sFileName));
 
             var memory = new MemoryStream();   
             if (!file.Exists)
             {
-               
+            
                 var response =new ResponseApi();
                 response.IsSuccess=false;
-                response.Message="File no exist";
+                response.Message="File no exist: "+file.DirectoryName;
+                response.Result=file;
+
                 Console.Write("File no exist");
             
-               return Ok(response);
+                return Ok(response);
             }else{
 
             using (
