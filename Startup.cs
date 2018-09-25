@@ -96,12 +96,12 @@ namespace pmacore_api
                 RequestPath = new PathString("/wwwroot/fonts") // accessing outside wwwroot folder contents.  
             }); 
 
-            app.UseStaticFiles(new StaticFileOptions()  
+            /*app.UseStaticFiles(new StaticFileOptions()  
             {  
             FileProvider = new PhysicalFileProvider(  
             Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/Reports")),  
                 RequestPath = new PathString("/wwwroot/Reports") // accessing outside wwwroot folder contents.  
-            }); 
+            }); */
 
            
 
