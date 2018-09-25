@@ -159,8 +159,10 @@ namespace pmacore_api.Controllers.pma
             Stream result;
             string empresa= string.Empty;
             string sWebRootFolder = _hostingEnvironment.WebRootPath;
+
+            
             string sFileName = @"FORMATO_CAUSACION.xlsx";
-            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
+            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder,"Reports", sFileName));
 
             var memory = new MemoryStream();                
            
@@ -182,7 +184,7 @@ namespace pmacore_api.Controllers.pma
             */
 
             using (
-                FileStream rstrEmpty = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open, FileAccess.Read))
+                FileStream rstrEmpty = new FileStream(Path.Combine(sWebRootFolder,"Reports", sFileName), FileMode.Open, FileAccess.Read))
                 {
                     IWorkbook workbookEmpty;
                    // rstr.CopyTo(memory);
@@ -197,7 +199,7 @@ namespace pmacore_api.Controllers.pma
                     style1.BorderRight =BorderStyle.Thin;
                     style1.BorderTop =BorderStyle.Thin;
 
-                   using (FileStream wstrEmpty = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+                   using (FileStream wstrEmpty = new FileStream(Path.Combine(sWebRootFolder,"Reports", sFileName), FileMode.Create, FileAccess.Write))
                    {
                     //Realizar consulta y recorrer por cada elemento
                     //llenar el archivo de excel
@@ -319,7 +321,7 @@ namespace pmacore_api.Controllers.pma
                 }
           
                 using (
-                FileStream rstr = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open, FileAccess.Read))
+                FileStream rstr = new FileStream(Path.Combine(sWebRootFolder,"Reports", sFileName), FileMode.Open, FileAccess.Read))
                 {
                     IWorkbook workbook;
                    // rstr.CopyTo(memory);
@@ -327,7 +329,7 @@ namespace pmacore_api.Controllers.pma
                     workbook = new XSSFWorkbook(rstr);
                     
                    ISheet excelSheet = workbook.GetSheet("Relacion_Causion_Viaticos");
-                   using (FileStream wstr = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+                   using (FileStream wstr = new FileStream(Path.Combine(sWebRootFolder,"Reports", sFileName), FileMode.Create, FileAccess.Write))
                    {
                     //Realizar consulta y recorrer por cada elemento
                     //llenar el archivo de excel
@@ -399,7 +401,7 @@ namespace pmacore_api.Controllers.pma
 
              
             //var archivo=file.OpenRead();
-            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+            using (var stream = new FileStream(Path.Combine(sWebRootFolder,"Reports", sFileName), FileMode.Open))
             {
                 await stream.CopyToAsync(memory);
             }
@@ -448,7 +450,7 @@ namespace pmacore_api.Controllers.pma
             string empresa= string.Empty;
             string sWebRootFolder = _hostingEnvironment.WebRootPath;
             string sFileName = @"FORMATO_CAUSACION.xlsx";
-            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
+            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder,"Reports", sFileName));
 
             var memory = new MemoryStream();   
             if (!file.Exists)
@@ -457,7 +459,7 @@ namespace pmacore_api.Controllers.pma
             }else{
 
             using (
-                FileStream rstrEmpty = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open, FileAccess.Read))
+                FileStream rstrEmpty = new FileStream(Path.Combine(sWebRootFolder,"Reports", sFileName), FileMode.Open, FileAccess.Read))
                 {
                     IWorkbook workbookEmpty;
                    // rstr.CopyTo(memory);
@@ -474,7 +476,7 @@ namespace pmacore_api.Controllers.pma
                  
                     
 
-                   using (FileStream wstrEmpty = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+                   using (FileStream wstrEmpty = new FileStream(Path.Combine(sWebRootFolder,"Reports", sFileName), FileMode.Create, FileAccess.Write))
                    {
                     //Realizar consulta y recorrer por cada elemento
 
@@ -604,7 +606,7 @@ namespace pmacore_api.Controllers.pma
                 
           
                 using (
-                FileStream rstr = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open, FileAccess.Read))
+                FileStream rstr = new FileStream(Path.Combine(sWebRootFolder,"Reports", sFileName), FileMode.Open, FileAccess.Read))
                 {
                     IWorkbook workbook;
                    // rstr.CopyTo(memory);
@@ -707,7 +709,7 @@ namespace pmacore_api.Controllers.pma
             }
 
             //var archivo=file.OpenRead();
-            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+            using (var stream = new FileStream(Path.Combine(sWebRootFolder,"Reports", sFileName), FileMode.Open))
             {
                 await stream.CopyToAsync(memory);
             }
