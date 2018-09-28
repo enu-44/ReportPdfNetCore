@@ -237,14 +237,14 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin.pma
                         <p>CONSORCIO PIPELINE MAINTENANCE ALLIANCE</p>
                     </td>
                     <td class='title_firmas' colspan='7'>
-                        <p>FIRMA </p>
+                        <p>FIRMA {0}</p>
                     </td>
                 </tr>
                 <tr >
                     <td class='title_firmas' colspan='17'>
                         CON SU FIRMA EL TRABAJADOR CERTIFICA HABER RECIBIDO LOS VALOES INDICADOS EN ESTA AUTORIZACIÓN DE VIAJE
                     </td>
-                </tr>");
+                </tr>",detalle_data.Cliente.Nombre);
 
         
 
