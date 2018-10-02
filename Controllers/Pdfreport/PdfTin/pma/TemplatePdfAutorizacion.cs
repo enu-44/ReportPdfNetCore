@@ -197,7 +197,7 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin.pma
                         <p>CONSORCIO PIPELINE MAINTENANCE ALLIANCE</p>
                     </td>
                     <td class='title_firmas' colspan='5'>
-                        <p>FIRMA DEL INGENIERO RESIDENTE</p>
+                        <p>FIRMA DEL INGENIERO RESIDENTE Y/O ADMINISTRADOR</p>
                         <p>CONSORCIO PIPELINE MAINTENANCE ALLIANCE</p>
                     </td>
                     <td class='title_firmas' colspan='5'>
