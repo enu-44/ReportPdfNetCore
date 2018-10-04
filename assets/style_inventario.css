@@ -3,6 +3,28 @@
   /*  page-break-after: always; */
 }
 
+ 
+table {
+    font-size: 13px;
+    font-family:tahoma;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #ddd;
+}
+
+th, td {
+    text-align: left;
+    padding: 14px;
+}
+
+.title{
+    font-size: 12px;
+    color:#e26912; 
+    font-weight: bold;
+}
+
+/*
 .traslate_text_vertical{
     font-size:10px;
                 -webkit-transform: rotate(-90deg);
@@ -77,6 +99,9 @@ p{
     font-size: 14px;
     text-align: center;
 }
+
+
+*/
 
 /*
 @media print {
