@@ -16,6 +16,9 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
+using pmacore_api.DataContext;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace pmacore_api
 {
@@ -44,7 +47,49 @@ namespace pmacore_api
                                                         .AllowAnyHeader() 
                                                         .AllowCredentials()); 
                                   }); 
-                                  
+
+
+            
+            //DataBase Conection
+            /* 
+             var configurationSection = Configuration.GetSection("ConnectionStrings:DataAccessPostgreSqlProvider").Value;
+             services.AddDbContext<MyAppContext>(options =>
+             {
+               // options.UseOpenIddict();
+                options.UseNpgsql(
+                configurationSection,
+                    b => b.MigrationsAssembly("Electroweb")
+                );
+            });
+            */
+
+            services.AddOptions();
+             //services.AddDataAccess<MyAppContext>();
+              var configurationSection = Configuration.GetSection("ConnectionStrings:DataAccessPostgreSqlProvider").Value;
+           // var configureOptions = services.BuildServiceProvider().GetRequiredService<IConfigureOptions<ConnectionStrings>>();
+             services.AddDbContext<MyAppContext>(options =>
+             {
+                ///options.UseOpenIddict();
+                options.UseNpgsql(
+                configurationSection,
+                    b => b.MigrationsAssembly("Electrocore")
+                );
+            });
+
+
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
+            try
+            {
+               var context = serviceProvider.GetRequiredService<MyAppContext>();
+              /// DbInitializer.Initialize(context);
+            }
+            catch (Exception ex)
+            {
+                   throw ex;
+            }
+
+
+            services.AddAutoMapper();            
             services.AddOptions();
             services.AddSingleton<IFileProvider>(
                 new PhysicalFileProvider(

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using pmacore_api.Models.datatake;
@@ -19,24 +20,23 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin.datatake
 
 
             var main = new StringBuilder();
-            main.Append(@"<html>
+            main.Append(@"
+			<html>
             
             <head>
             <meta charset='utf-8'>
             </head>
             <body>");
 
-            foreach (var item in response.List)
+
+
+			var listGroup= response.List.GroupBy(a=> new {a.empresa_id,a.ciudad_id}).ToList();
+
+            foreach (var item in listGroup)
             {
-                
-
-               
-                main.Append(@"
-                <div class='formato'>
-
-                ");
-
-                main.AppendFormat(@"<table >
+            
+                main.Append(@"<div class='formato'>");
+                main.AppendFormat(@"<table>
 													<tr>
 													<td rowspan='2' align='center'  width='25%'> 
 															{0}
@@ -59,54 +59,106 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin.datatake
 															<span class='title'>   VERSION:  </span>01<br />
 													</td>
 													</tr>
-											</table>", image, dateNow, item.nombre_proyecto);
+											</table>", image, dateNow, item.FirstOrDefault().nombre_proyecto);
 
-                main.AppendFormat(@"<p></p><table>
+										    var totalPostes= response.List.Where(a=>a.ciudad_id==item.FirstOrDefault().ciudad_id && a.empresa_id==item.FirstOrDefault().empresa_id).GroupBy(a=>a.elemento_id).Count();
+											long ocupacion_total=response.List.Where(a=>a.ciudad_id==item.FirstOrDefault().ciudad_id && a.empresa_id==item.FirstOrDefault().empresa_id).AsEnumerable().Sum(a=>a.cantidad_cable);
+											
+											var longitudes= response.List.GroupBy(a=>a.longitud).ToList();
+
+										
+                                            main.AppendFormat(@"<table >
 																		<tr >
 																			<th width='10%'><strong>Ciudad:</strong></th>
 																			<td width='20%' align='center'>{0}</td>
 																			<td width='10%'><strong>Postes</strong></td>
 																			<td width='20%' align='center'>{1}</td>
-																			<td width='20%' rowspan='2'><strong>Ocupaciones por longitud</strong></td>
+																			<td width='20%' rowspan='2'><strong>Ocupaciones por long.</strong></td>
 																			<td width='20%' rowspan='2' 
-																			>
-																			<strong>6 m:  </strong> {4}
-																			<br><strong>8 m:  </strong> {5}
-																			<br><strong>10 m:  </strong> {6}
-																			<br> <strong>12 m: </strong> {7}
-																			<br> <strong>14 m: </strong> {8} 
-																			<br> <strong>16 m: </strong> {9} 
-																			</td>
+																			>",item.FirstOrDefault().ciudad,totalPostes);
+											var lon=0;
+											foreach (var longitud in longitudes)
+											{
+												lon++;
+												if(lon>1){
+													var totallongitud= response.List.Where(
+														a=>a.ciudad_id==item.FirstOrDefault().ciudad_id && a.empresa_id==item.FirstOrDefault().empresa_id &&
+														a.longitud==longitud.FirstOrDefault().longitud).AsEnumerable().Sum(a=>a.cantidad_cable);
+												    main.AppendFormat(@"<br><strong>{0} m:  </strong> {1}",longitud.FirstOrDefault().longitud,totallongitud);
+												}else{
+													var totallongitud= response.List.Where(
+														a=>a.ciudad_id==item.FirstOrDefault().ciudad_id && a.empresa_id==item.FirstOrDefault().empresa_id &&
+														a.longitud==longitud.FirstOrDefault().longitud).AsEnumerable().Sum(a=>a.cantidad_cable);
+												    main.AppendFormat(@"<strong>{0} m:  </strong> {1}",longitud.FirstOrDefault().longitud,totallongitud);
+												}
+											}
+
+											main.AppendFormat(@"			</td>
 																		</tr>
 																		<tr>
 																			<td width='10%'><strong>Operador:</strong></td>
-																			<td width='20%' align='center'>{2}</td>
+																			<td width='20%' align='center'>{0}</td>
 																			<td width='10%'><strong>Ocupaciones:</strong></td>
-																			<td width='10%' align='center'>{3}</td>
+																			<td width='10%' align='center'>{1}</td>
 																	
 																		</tr>
-																		</table>", 1,2,3,4,5,6,7,8,9,10);
+																		</table>", item.FirstOrDefault().nombre_empresa,ocupacion_total);
 
 
                                                                         main.AppendFormat(@"
-                                                                        <table style='width: 100%;font-size:7pt;font-family:tahoma;'>
-																		    <tr align='center'>
-                                                                                <th ><strong>#</strong></th>
-                                                                                <th ><strong>Numero apoyo</strong></th>
-                                                                                <th ><strong>Codigo Apoyo</strong></th>
-                                                                                <th ><strong>Long. Poste</strong></th>
-                                                                                <th ><strong>Estado</strong></th>
-                                                                                <th ><strong>Nivel Tension</strong></th>
-                                                                                <th ><strong>Altura Disponible</strong></th>
-                                                                                <th ><strong>Resistencia Mecanica</strong></th>
-                                                                                <th ><strong>Material</strong></th>
-                                                                                <th ><strong>Retenidas</strong></th>
-                                                                                <th ><strong>Direccion</strong></th>
-                                                                                <th ><strong>Cable</strong></th>
-                                                                                <th ><strong>Ocupaciones</strong></th>
-                                                                                <th ><strong>Coordenadas</strong></th>
+                                                                        <table  border='1' align='center' bordercolor='#C6C6C6'>
+																		    <tr class='title_table_bold'  align='center'>
+                                                                                <th align='center'>#</th>
+                                                                                <th align='center'>Numero apoyo</th>
+                                                                                <th align='center'>Codigo Apoyo</th>
+                                                                                <th align='center'>Long. Poste</th>
+                                                                                <th align='center'>Estado</th>
+                                                                                <th align='center'>Nivel Tension</th>
+                                                                                <th align='center'>Altura Disponible</th>
+                                                                                <th align='center'>Resistencia Mecanica</th>
+                                                                                <th align='center'>Material</th>
+                                                                                <th align='center'>Retenidas</th>
+                                                                                <th align='center'>Direccion</th>
+                                                                                <th align='center'>Cable</th>
+                                                                                <th align='center'>Ocupaciones</th>
+                                                                                <th align='center'>Coordenadas</th>
 																			</tr>
-																		</table>");
+																		");
+
+
+																		var listCables=  response.List.Where(
+																			a=>a.ciudad_id==item.FirstOrDefault().ciudad_id && 
+																			a.empresa_id==item.FirstOrDefault().empresa_id).ToList();
+																		var count= 0;
+																		foreach (var cable in listCables)
+																		{
+																		count++;
+																		main.AppendFormat(@"
+                                                                       
+																		    <tr >
+                                                                                <td class='content_table' align='center'>{0}</td>
+                                                                                <td class='content_table' align='center'>{1}</td>
+                                                                                <td class='content_table' align='center'>{2}</td>
+                                                                                <td class='content_table' align='center'>{3}</td>
+                                                                                <td class='content_table' align='center'>{4}</td>
+                                                                                <td class='content_table' align='center'>{5}</td>
+                                                                                <td class='content_table' align='center'>{6}</td>
+                                                                                <td class='content_table' align='center'>{7}</td>
+                                                                                <td class='content_table' align='center'>{8}</td>
+                                                                                <td class='content_table' align='center'>{9}</td>
+                                                                                <td class='content_table' align='center'>{10}</td>
+                                                                                <td class='content_table' align='center'>{11}</td>
+                                                                                <td class='content_table' align='center'>{12}</td>
+                                                                                <td class='content_table' align='center'>{13}</td>
+																			</tr>
+																		",count,cable.elemento_id,cable.codigoapoyo,cable.longitud,cable.nombre_estado,
+																		cable.valor_nivel_tension,cable.alturadisponible, cable.resistenciamecanica,cable.nombre_material,
+																		cable.retenidas,cable.direccion_elemento,cable.nombre_cable,cable.cantidad_cable,cable.coordenadas_elemento);
+																			
+																		}
+
+																		 main.Append(@"
+                														</table>");
 
 
 

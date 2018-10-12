@@ -8,10 +8,14 @@ table {
     font-size: 13px;
     font-family:tahoma;
     width: 100%;
-    border-collapse: collapse;
     border-spacing: 0;
-    border: 1px solid #ddd;
+    border: 1px solid #B6B6B6;
+    border-collapse: collapse;
+    margin-top: 10px;
+    /*border: 1px solid #ddd;*/
 }
+
+
 
 th, td {
     text-align: left;
@@ -23,6 +27,25 @@ th, td {
     color:#e26912; 
     font-weight: bold;
 }
+
+
+.content_table{
+    font-size: 10px;
+    font-weight: normal;
+}
+
+.title_table_bold{
+    font-size: 10px;
+    color:#000000; 
+    font-weight: bold;
+}
+
+.title_table_orange{
+    font-size: 10px;
+    color:#e26912; 
+    font-weight: bold;
+}
+
 
 /*
 .traslate_text_vertical{

@@ -4,6 +4,11 @@ namespace pmacore_api.Models.datatake
 {
     public class ViewElementoCables
     {
+        //Atributes
+        private  string tiene_marquilla_;
+        private  string sobreRbt_;
+
+        //Porperties
         public long cable_id { get; set; }
         public string nombre_cable { get; set; }
         public string sigla_cable { get; set; }
@@ -13,8 +18,40 @@ namespace pmacore_api.Models.datatake
         public string nit_empresa { get; set; }
         public string direccion_empresa { get; set; }
         public long elemento_cable_id { get; set; }
-        public bool sobrerbt { get; set; }
-        public bool tiene_marquilla { get; set; }
+        public string sobrerbt { 
+            get
+            {
+                return sobreRbt_;
+            }
+            set
+            {
+                if (value=="False")
+                {
+                    sobreRbt_ = "NO";
+                }else{
+                    sobreRbt_ = "SI";
+                }
+                
+
+            } 
+         }
+        public string tiene_marquilla {
+            get
+            {
+                return tiene_marquilla_;
+            }
+            set
+            {
+                if (value=="False")
+                {
+                    tiene_marquilla_ = "NO";
+                }else{
+                    tiene_marquilla_ = "SI";
+                }
+                
+
+            } 
+        }
         public long cantidad_cable { get; set; }
         public long empresa_id { get; set; }
         public long detalletipocable_id { get; set; }
