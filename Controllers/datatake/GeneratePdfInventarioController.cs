@@ -206,9 +206,6 @@ namespace pmacore_api.Controllers
 
 
 
-
-
-
         [HttpPost]
         [Route("PdfReportGeneral")]
         public async Task<IActionResult> PdfReportGeneral([FromBody]RequestReport viewModel)
@@ -221,7 +218,7 @@ namespace pmacore_api.Controllers
                 return BadRequest(responseModel);
                 ///return BadRequest(ModelState);
             }
-            
+
             var listElementosCables = new ResponseElementoCables();
             ///var controller = "";
             var prefix = "";
