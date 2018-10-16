@@ -222,11 +222,10 @@ namespace pmacore_api.Controllers.Pdfreport.PdfTin.datatake
 
                 var equipos= dataContext.ViewEquipos.Where(a=>a.numero_apoyo==item.FirstOrDefault().elemento_id).ToList();
                 //var equiposMap= 
-
                 var equiposMap = _mapper.Map<IEnumerable<ViewEquipos>, IEnumerable<ViewEquiposMap>>(equipos).ToList();
                 
 
-                 main.AppendFormat(@"<table border='1' align='center' bordercolor='#C6C6C6'>
+                main.AppendFormat(@"<table border='1' align='center' bordercolor='#C6C6C6'>
                                     <tr class='title_table_orange'   align='center'>
                                         <td colspan='5' width='100 %'  align='center'>DETALLE EQUIPOS</td>
                                     </tr>						

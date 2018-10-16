@@ -8,14 +8,16 @@ namespace pmacore_api.services
 {
     public class ApiService
     {
-        public static async Task<ResponseApi> GetList<T>(string urlBase, string servicePrefix, string controller)
+       // public static async Task<ResponseApi> GetList<T>(string urlBase, string servicePrefix, string controller)
+       public static async Task<ResponseApi> GetList<T>(string urlBase, string servicePrefix)
         {
             try
             {
                 var client = new HttpClient();
              
                 client.BaseAddress = new Uri(urlBase);
-                var url = string.Format("{0}{1}", servicePrefix, controller);
+                ///var url = string.Format("{0}{1}", servicePrefix, controller);
+                var url = string.Format("{0}", servicePrefix);
                 var response = await client.GetAsync(url);
 
                 if (!response.IsSuccessStatusCode)

@@ -18,6 +18,7 @@ using pmacore_api.Controllers.Pdfreport.PdfTin.datatake;
 using pmacore_api.DataContext;
 using System.Linq;
 using AutoMapper;
+using pmacore_api.Controllers.datatake;
 
 namespace pmacore_api.Controllers
 {
@@ -91,15 +92,15 @@ namespace pmacore_api.Controllers
         public async Task<IActionResult> GetPdfExampleCables()
         {
             var listElementosCables = new ResponseElementoCables();
+            ///var controller = "";
             var prefix = "";
-            var controller = "";
             var URL_BASE = "";
-            prefix = "odata/datatakedev/";
-            controller = string.Format("{0}", "Viewfromcablesms?$top=500&$skip=20000&$count=true");
+            ///controller = "odata/datatakedev/";
+            prefix = string.Format("{0}", "odata/datatakedev/Viewfromcablesms?$top=500&$skip=20000&$count=true");
             var route = RouteService.GetInstance();
             URL_BASE = route.RouteBaseAddress;
 
-            var response = await ApiService.GetList<ResponseElementoCables>(URL_BASE, prefix, controller);
+            var response = await ApiService.GetList<ResponseElementoCables>(URL_BASE, prefix);
 
             if (!response.IsSuccess)
             {
@@ -138,14 +139,6 @@ namespace pmacore_api.Controllers
                 };
             
                 var file = _converter.Convert(pdf);
-               /* var ruta= await postUploadImage(file);
-                var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
-                HttpContext.Response.ContentType = "application/pdf";
-                return new FileStreamResult(stream, "application/pdf")
-                {
-                    FileDownloadName = "Formato_Autorizacion.pdf"
-                };
-                */
 
             return File(file, "application/pdf", "Formato_Inventario_General.pdf");
             ///return Ok(response);
@@ -160,15 +153,15 @@ namespace pmacore_api.Controllers
         public async Task<IActionResult> GetPdfExampleElementos()
         {
             var listElementosCables = new ResponseElementoCables();
+            //var controller = "";
             var prefix = "";
-            var controller = "";
             var URL_BASE = "";
-            prefix = "odata/datatakedev/";
-            controller = string.Format("{0}", "Viewfromcablesms?$top=100&$skip=30000&$count=true");
+            //controller = "odata/datatakedev/";
+            prefix = string.Format("{0}", "odata/datatakedev/Viewfromcablesms?$top=100&$skip=30000&$count=true");
             var route = RouteService.GetInstance();
             URL_BASE = route.RouteBaseAddress;
 
-            var response = await ApiService.GetList<ResponseElementoCables>(URL_BASE, prefix, controller);
+            var response = await ApiService.GetList<ResponseElementoCables>(URL_BASE, prefix);
 
             if (!response.IsSuccess)
             {
@@ -207,15 +200,145 @@ namespace pmacore_api.Controllers
                 };
             
                 var file = _converter.Convert(pdf);
-               /* var ruta= await postUploadImage(file);
-                var stream = new FileStream(_hostingEnvironment.WebRootPath+ruta,FileMode.Open);
-                HttpContext.Response.ContentType = "application/pdf";
-                return new FileStreamResult(stream, "application/pdf")
-                {
-                    FileDownloadName = "Formato_Autorizacion.pdf"
-                };
-                */
+            return File(file, "application/pdf", "Formato_Inventario_Detallado.pdf");
+            ///return Ok(response);
+        }
 
+
+
+
+
+
+        [HttpPost]
+        [Route("PdfReportGeneral")]
+        public async Task<IActionResult> PdfReportGeneral([FromBody]RequestReport viewModel)
+        {
+            var responseModel= new ResponseApi();
+
+            if(!ModelState.IsValid){
+                responseModel.IsSuccess=false;
+                responseModel.Message= "Request Invalid";
+                return BadRequest(responseModel);
+                ///return BadRequest(ModelState);
+            }
+            
+            var listElementosCables = new ResponseElementoCables();
+            ///var controller = "";
+            var prefix = "";
+            var URL_BASE = "";
+            ///controller = "odata/datatakedev/";
+            //prefix = string.Format("{0}", "odata/datatakedev/Viewfromcablesms?$top=500&$skip=20000&$count=true");
+            prefix = string.Format("{0}",viewModel.Url);
+            var route = RouteService.GetInstance();
+            URL_BASE = route.RouteBaseAddress;
+
+            var response = await ApiService.GetList<ResponseElementoCables>(URL_BASE, prefix);
+            if (!response.IsSuccess)
+            {
+                return Ok(response);
+            }
+
+            var cables = (ResponseElementoCables)response.Result;
+            var globalSettings = new GlobalSettings
+                {
+                    ColorMode = ColorMode.Color,
+                    Orientation = Orientation.Portrait,
+                    PaperSize = PaperKind.A4,
+                    Margins = new MarginSettings { Top = 6 },
+                    DocumentTitle = "Formato General Inventario"
+                };
+
+
+                var templatePdfGeneral= new TemplatePdfGeneral();
+                //var template= await templatePdfAutorizacion.GetHTMLString(requestPma,_hostingEnvironment.WebRootPath);
+            
+                var objectSettings = new ObjectSettings
+                {
+                    PagesCount = true,
+                   // Page= "http://interedes.co/",
+                    HtmlContent = await templatePdfGeneral.GetHTMLString(cables,_hostingEnvironment.WebRootPath),
+                    WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet =  Path.Combine(Directory.GetCurrentDirectory(), "assets", "style_inventario.css") },
+                    HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = false,Spacing=1 },
+                    //FooterSettings = { FontName = "Arial", FontSize = 9, Line = false, HtmUrl =Path.Combine(Directory.GetCurrentDirectory(), "assets", "footer/footer.html"), Left = ""  }
+                    FooterSettings = { FontName = "Arial", FontSize = 9, Line = false,Center="" }
+                };
+            
+                var pdf = new HtmlToPdfDocument()
+                {
+                    GlobalSettings = globalSettings,
+                    Objects = { objectSettings }
+                };
+            
+                var file = _converter.Convert(pdf);
+
+            return File(file, "application/pdf", "Formato_Inventario_General.pdf");
+            ///return Ok(response);
+        }
+
+
+
+
+        
+        [HttpPost]
+        [Route("PdfDetailReport")]
+        public async Task<IActionResult> PdfDetailReport([FromBody]RequestReport viewModel)
+        {
+            var responseModel= new ResponseApi();
+            if(!ModelState.IsValid){
+                responseModel.IsSuccess=false;
+                responseModel.Message= "Request Invalid";
+                return BadRequest(responseModel);
+            }
+
+            var listElementosCables = new ResponseElementoCables();
+            //var controller = "";
+            var prefix = "";
+            var URL_BASE = "";
+            //controller = "odata/datatakedev/";
+            //prefix = string.Format("{0}", "odata/datatakedev/Viewfromcablesms?$top=100&$skip=30000&$count=true");
+            prefix = string.Format("{0}", viewModel.Url);
+            var route = RouteService.GetInstance();
+            URL_BASE = route.RouteBaseAddress;
+
+            var response = await ApiService.GetList<ResponseElementoCables>(URL_BASE, prefix);
+
+            if (!response.IsSuccess)
+            {
+                return Ok(response);
+            }
+
+            var cables = (ResponseElementoCables)response.Result;
+            var globalSettings = new GlobalSettings
+                {
+                    ColorMode = ColorMode.Color,
+                    Orientation = Orientation.Portrait,
+                    PaperSize = PaperKind.A4,
+                    Margins = new MarginSettings { Top = 6 },
+                    DocumentTitle = "Formato General Inventario"
+                };
+
+
+                var templatePdfGeneral= new TemplatePdfDetallado();
+                //var template= await templatePdfAutorizacion.GetHTMLString(requestPma,_hostingEnvironment.WebRootPath);
+            
+                var objectSettings = new ObjectSettings
+                {
+                    PagesCount = true,
+                   // Page= "http://interedes.co/",
+                    HtmlContent = await templatePdfGeneral.GetElementosHTMLString(cables,_hostingEnvironment.WebRootPath,_mapper),
+                    WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet =  Path.Combine(Directory.GetCurrentDirectory(), "assets", "bootstrap.css") },
+                    HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = false,Spacing=1 },
+                    //FooterSettings = { FontName = "Arial", FontSize = 9, Line = false, HtmUrl =Path.Combine(Directory.GetCurrentDirectory(), "assets", "footer/footer.html"), Left = ""  }
+                    FooterSettings = { FontName = "Arial", FontSize = 9, Line = false,Center="" }
+                };
+            
+                var pdf = new HtmlToPdfDocument()
+                {
+                    GlobalSettings = globalSettings,
+                    Objects = { objectSettings }
+                };
+            
+                var file = _converter.Convert(pdf);
             return File(file, "application/pdf", "Formato_Inventario_Detallado.pdf");
             ///return Ok(response);
         }
@@ -224,6 +347,7 @@ namespace pmacore_api.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+
         }
 
         // DELETE api/values/5
